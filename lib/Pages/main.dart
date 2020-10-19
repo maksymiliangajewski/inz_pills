@@ -1,17 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:inz_pills/Utils/colors.dart';
+import 'package:inz_pills/widgets/DrawerWidget.dart';
+import 'package:inz_pills/widgets/HomePageCardWidget.dart';
 
 void main() => runApp(InzApp());
 
 class InzApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.indigo,
-        fontFamily: 'Roboto',
+    return NeumorphicApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Inzynierka App',
+      themeMode: ThemeMode.light,
+      theme: NeumorphicThemeData(
+        baseColor: AppColors.honeydew,
+        lightSource: LightSource.topLeft,
+        depth: 5,
       ),
+      darkTheme: NeumorphicThemeData(
+          baseColor: Color(0xFF3E3E3E),
+          lightSource: LightSource.topLeft,
+          depth: 6),
       home: HomePage(),
     );
   }
@@ -25,35 +36,39 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.honeydew,
-      appBar: AppBar(
-        backgroundColor: AppColors.prussianBlue,
-        title: Text(
-          'Inzynierka App',
-          style:
-              TextStyle(fontWeight: FontWeight.w500, color: AppColors.honeydew),
+      drawer: DrawerWidget(),
+      appBar: NeumorphicAppBar(
+        buttonStyle: NeumorphicStyle(
+            shape: NeumorphicShape.concave,
+            boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+            depth: 3,
+            lightSource: LightSource.topLeft),
+        title: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Text(
+            'Inzynierka App',
+            style: TextStyle(
+                fontSize: 25,
+                color: AppColors.prussianBlue,
+                fontFamily: 'Roboto'),
+          ),
         ),
         centerTitle: true,
-        elevation: 5.0,
-        actions: [
-          IconButton(
-              icon: Icon(CupertinoIcons.ellipsis_vertical),
-              color: AppColors.honeydew,
-              onPressed: () {}),
-          IconButton(
-              icon: Icon(Icons.exit_to_app),
-              color: AppColors.honeydew,
-              onPressed: () {}),
-        ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Main screen!',
-            ),
-          ],
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          child: GridView.count(
+            crossAxisCount: 2,
+            children: [
+              HomePageCardWidget('Your pills', AppColors.powderBlue,
+                  CupertinoIcons.arrowshape_turn_up_right_fill),
+              HomePageCardWidget('Find medicines', AppColors.imperialRed,
+                  CupertinoIcons.square_stack_3d_down_right),
+              HomePageCardWidget('Create a reminder', AppColors.prussianBlue,
+                  CupertinoIcons.plus_circle_fill),
+            ],
+          ),
         ),
       ),
     );
