@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:inz_pills/Pages/screen1.dart';
 import 'package:inz_pills/Utils/colors.dart';
 import 'package:inz_pills/widgets/DrawerWidget.dart';
 import 'package:inz_pills/widgets/HomePageCardWidget.dart';
@@ -24,6 +25,9 @@ class InzApp extends StatelessWidget {
           lightSource: LightSource.topLeft,
           depth: 6),
       home: HomePage(),
+      routes: {
+        '/second': (context) => Screen1(),
+      },
     );
   }
 }

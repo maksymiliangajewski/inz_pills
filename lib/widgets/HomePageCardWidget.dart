@@ -14,7 +14,9 @@ class HomePageCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphicButton(
       margin: EdgeInsets.all(12),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, '/second');
+      },
       style: NeumorphicStyle(
         color: Colors.white,
         shape: NeumorphicShape.flat,

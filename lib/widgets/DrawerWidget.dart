@@ -11,10 +11,13 @@ class DrawerWidget extends StatelessWidget {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-              AppColors.prussianBlue,
-              AppColors.honeydew,
-            ])),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment(0.8, 0.0),
+                    colors: <Color>[
+                  AppColors.prussianBlue,
+                  AppColors.honeydew,
+                ])),
             child: Container(
               child: Column(
                 children: [
