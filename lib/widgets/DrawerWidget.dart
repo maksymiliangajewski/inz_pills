@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:inz_pills/Utils/colors.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -76,17 +75,17 @@ class CustomListTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                NeumorphicIcon(
+                Icon(
                   icon,
-                  style: NeumorphicStyle(color: AppColors.prussianBlue),
+                  color: AppColors.prussianBlue,
                 ),
                 Text(
                   title,
                   style: TextStyle(fontSize: 15),
                 ),
-                NeumorphicIcon(
+                Icon(
                   Icons.arrow_forward_ios_rounded,
-                  style: NeumorphicStyle(color: AppColors.prussianBlue),
+                  color: AppColors.prussianBlue,
                 )
               ],
             ),
