@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inz_pills/Utils/colors.dart';
-import 'package:inz_pills/Utils/imageAssets.dart';
 import 'package:inz_pills/widgets/HomePageButton.dart';
+import 'package:inz_pills/widgets/PillsHomeScreenWidget.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -82,36 +82,19 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Text('Your upcoming pills:'),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            height: 100,
-            child: Row(
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+            child: Text(
+              'Your upcoming pills:',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Expanded(
+            child: ListView(
               children: [
-                Expanded(
-                    child: Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: AppColors.powderBlue,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: shadowList),
-                    ),
-                    Align(
-                      child: Image.asset(
-                        'images/medicine.png',
-                        height: 80,
-                      ),
-                    )
-                  ],
-                )),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white, boxShadow: shadowList),
-                  ),
-                )
+                PillsHomeScreenWidget(),
+                PillsHomeScreenWidget(),
+                PillsHomeScreenWidget(),
               ],
             ),
           )
