@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inz_pills/Utils/colors.dart';
+import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/widgets/HomePageButton.dart';
 import 'package:inz_pills/widgets/PillsHomeScreenWidget.dart';
 
@@ -23,11 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(isDrawerOpen ? 30 : 0),
         color: AppColors.honeydew,
-
       ),
       child: GestureDetector(
         onTap: () {
-          if(isDrawerOpen) {
+          if (isDrawerOpen) {
             setState(() {
               xOffset = 0;
               yOffset = 0;
@@ -67,11 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               isDrawerOpen = true;
                             });
                           }),
-                  Text('Inzynierka App',
-                  style: TextStyle(
-                    fontSize: 20
-                  ),),
-                  CircleAvatar()
+                  Text(
+                    'Inzynierka App',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(
+                    width: 40,
+                  )
                 ],
               ),
             ),
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Icon(Icons.add),
                   Text('Create new reminder'),
-                  Icon(Icons.settings)
+                  SizedBox(width: 20),
                 ],
               ),
             ),
@@ -94,14 +95,14 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  HomePageButton('Pills', 'drugs.png'),
-                  HomePageButton('Appointments', 'doctor.png'),
-                  HomePageButton('Search', 'magnifying-glass.png'),
+                  HomePageButton('Medication', 'drugs.png', '/second'),
+                  HomePageButton('Dosages', 'doctor.png', '/second'),
+                  HomePageButton('Search', 'magnifying-glass.png', '/second'),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.only(top: 20),
               child: Text(
                 'Your upcoming pills',
                 style: TextStyle(fontSize: 20),
@@ -109,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: ListView(
+                padding: EdgeInsets.only(top: 15),
                 children: [
                   PillsHomeScreenWidget(),
                   PillsHomeScreenWidget(),

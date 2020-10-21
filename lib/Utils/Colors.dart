@@ -1,4 +1,9 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
+
+List<BoxShadow> shadowList = [
+  BoxShadow(color: Colors.grey[300], blurRadius: 30, offset: Offset(0, 10))
+];
 
 class AppColors {
   static const Color imperialRed = Color.fromARGB(255, 230, 57, 70);
