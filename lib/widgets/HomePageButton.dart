@@ -27,8 +27,7 @@ class HomePageButton extends StatelessWidget {
                 onTap: () {},
                 child: Image.asset(
                   'images/$icon',
-                  height: 50,
-                  width: 50,
+                  width: MediaQuery.of(context).size.width*0.1,
                 ),
               ),
             ),

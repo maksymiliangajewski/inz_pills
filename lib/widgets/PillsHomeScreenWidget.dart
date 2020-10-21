@@ -11,8 +11,8 @@ class _PillsHomeScreenWidgetState extends State<PillsHomeScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      height: 150,
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+      height: MediaQuery.of(context).size.width*0.38,
       child: Row(
         children: [
           Expanded(
@@ -21,13 +21,13 @@ class _PillsHomeScreenWidgetState extends State<PillsHomeScreenWidget> {
               Container(
                 decoration: BoxDecoration(
                     color: AppColors.powderBlue,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(12),
                     boxShadow: shadowList),
               ),
               Align(
                 child: Image.asset(
                   'images/medicine.png',
-                  height: 80,
+                  width: MediaQuery.of(context).size.width*0.19,
                 ),
               )
             ],
@@ -35,9 +35,11 @@ class _PillsHomeScreenWidgetState extends State<PillsHomeScreenWidget> {
           Expanded(
             flex: 3,
             child: Container(
+              margin: EdgeInsets.only(top: 10, bottom: 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: shadowList,
+                borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20))
               ),
             ),
           )
