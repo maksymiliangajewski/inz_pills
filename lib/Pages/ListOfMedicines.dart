@@ -1,43 +1,56 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inz_pills/Models/User.dart';
-import 'package:inz_pills/Utils/API.dart';
+import 'package:inz_pills/Models/Medicine.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:inz_pills/Utils/MedicineWebScraper.dart' as scraper;
 
-class Screen1 extends StatefulWidget {
+class ListOfMedicines extends StatefulWidget {
   final String pageTitle;
   @override
-  _Screen1State createState() => _Screen1State(pageTitle);
+  _ListOfMedicinesState createState() => _ListOfMedicinesState(pageTitle);
 
-  Screen1(this.pageTitle);
+  ListOfMedicines(this.pageTitle);
 }
 
-class _Screen1State extends State<Screen1> {
-  _Screen1State(this.pageTitle);
+class _ListOfMedicinesState extends State<ListOfMedicines> {
+  _ListOfMedicinesState(this.pageTitle);
 
   final String pageTitle;
-  var users = new List<User>();
+  bool _isInAsyncCall = false;
+  String medicineInfo = '';
+  Medicine medicine;
 
-  _getUsers() {
-    API.getUsers().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body);
-        users = list.map((model) => User.fromJson(model)).toList();
-      });
-    });
-  }
+  // var users = new List<User>();
+  //
+  // _getUsers() {
+  //   API.getUsers().then((response) {
+  //     setState(() {
+  //       Iterable list = json.decode(response.body);
+  //       users = list.map((model) => User.fromJson(model)).toList();
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    _getUsers();
+    _isInAsyncCall = true;
+    getMedicine();
+    // _getUsers();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<void> getMedicine() async {
+    medicine = await scraper.getMedicine();
+    setState(() {
+      medicineInfo = medicine.printData();
+      _isInAsyncCall = false;
+    });
   }
 
   @override
@@ -72,19 +85,21 @@ class _Screen1State extends State<Screen1> {
             ),
             SizedBox(height: 40),
             Expanded(
-              child: ListView.builder(
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Icon(Icons.email),
-                    title: Text(users[index].name),
-                    trailing: IconButton(
-                      icon: Icon(Icons.add),
-                      onPressed: () => print('pressed icon'),
+              child: ModalProgressHUD(
+                  inAsyncCall: _isInAsyncCall,
+                  progressIndicator: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: CircularProgressIndicator()),
+                  child: SingleChildScrollView(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(medicineInfo),
+                        ],
+                      ),
                     ),
-                  );
-                },
-              ),
+                  )),
             )
           ],
         ),
@@ -92,3 +107,20 @@ class _Screen1State extends State<Screen1> {
     );
   }
 }
+
+// Expanded szedł po SizedBoxie(40)
+// Expanded(
+// child: ListView.builder(
+// itemCount: users.length,
+// itemBuilder: (context, index) {
+// return ListTile(
+// leading: Icon(Icons.email),
+// title: Text(users[index].name),
+// trailing: IconButton(
+// icon: Icon(Icons.add),
+// onPressed: () => print('pressed icon'),
+// ),
+// );
+// },
+// ),
+// )

@@ -6,9 +6,8 @@ import 'package:inz_pills/Utils/Colors.dart';
 class HomePageButton extends StatelessWidget {
   final String title;
   final String icon;
-  final String route;
 
-  HomePageButton(this.title, this.icon, this.route);
+  HomePageButton(this.title, this.icon);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,18 @@ class HomePageButton extends StatelessWidget {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Screen1(title),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        switch (title) {
+          case 'Medication':
+            return ListOfMedicines(title);
+          case 'Dosages':
+            return null;
+          case 'Search':
+            return null;
+          default:
+            return null;
+        }
+      },
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(1.0, 0.0);
         var end = Offset.zero;

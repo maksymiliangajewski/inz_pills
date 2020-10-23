@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MaterialApp(
       home: InzApp(),
-      theme: ThemeData(textTheme: GoogleFonts.solwayTextTheme()),
+      theme: ThemeData(textTheme: GoogleFonts.alataTextTheme()),
       debugShowCheckedModeBanner: false,
     ));
 

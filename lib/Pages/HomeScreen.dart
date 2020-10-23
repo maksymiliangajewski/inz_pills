@@ -95,9 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  HomePageButton('Medication', 'drugs.png', '/second'),
-                  HomePageButton('Dosages', 'doctor.png', '/second'),
-                  HomePageButton('Search', 'magnifying-glass.png', '/second'),
+                  HomePageButton('Medication', 'drugs.png'),
+                  HomePageButton('Dosages', 'doctor.png'),
+                  HomePageButton('Search', 'magnifying-glass.png'),
                 ],
               ),
             ),
