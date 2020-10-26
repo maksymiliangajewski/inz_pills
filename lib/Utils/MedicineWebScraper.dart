@@ -3,11 +3,10 @@ import 'package:html/parser.dart';
 import 'package:html/dom.dart';
 import 'package:inz_pills/Models/Medicine.dart';
 
-Future<Medicine> getMedicine() async {
+Future<Medicine> getMedicine(String medicineUrl) async {
   Medicine medicine;
   var client = Client();
-  Response response = await client.get(
-      'http://bazalekow.leksykon.com.pl/informacja-o-lekach-Controloc-Control%C2%AE-10278968.html');
+  Response response = await client.get(medicineUrl);
 
   var document = parse(response.body);
   Element name = document.querySelector('div.name');
@@ -37,6 +36,12 @@ Future<Medicine> getMedicine() async {
       }
     }
   }
+
+  String fullRes = '';
+  for (int i = 0; i < titlesList.length; ++i) {
+    fullRes += titlesList[i] + '        ' + bodies[i].text.toString() + '\n';
+  }
+  print(fullRes);
 
   for (var body in bodies) {
     descriptionsList.add(body.text);

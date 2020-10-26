@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inz_pills/Pages/ListOfMedicines.dart';
+import 'package:inz_pills/Pages/MedicinesListScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 
 class HomePageButton extends StatelessWidget {
@@ -48,7 +48,7 @@ class HomePageButton extends StatelessWidget {
       pageBuilder: (context, animation, secondaryAnimation) {
         switch (title) {
           case 'Medication':
-            return ListOfMedicines(title);
+            return MedicinesListScreen();
           case 'Dosages':
             return null;
           case 'Search':
