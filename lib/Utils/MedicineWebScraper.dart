@@ -1,66 +1,37 @@
 import 'package:http/http.dart';
 import 'package:html/parser.dart';
 import 'package:html/dom.dart';
-import 'package:inz_pills/Models/Medicine.dart';
 
-Future<Medicine> getMedicine(String medicineUrl) async {
-  Medicine medicine;
+Future<List<String>> getMedicine(String medicineUrl) async {
   var client = Client();
   Response response = await client.get(medicineUrl);
 
   var document = parse(response.body);
-  Element name = document.querySelector('div.name');
   List<Element> titles = document.querySelectorAll('span.descr_section');
-  List<Element> bodies = document.querySelectorAll('span.descr_body');
   List<RegExp> listOfHeadtitles = [
-    RegExp('Wskazania.+'),
-    RegExp('Dawkowanie.+'),
-    RegExp('Uwagi.+'),
-    RegExp('Przeciwwskazania.+'),
-    RegExp('Ostrzeżenia specjalne.+'),
-    RegExp('Interakcje.+'),
-    RegExp('Ciąża i laktacja.+'),
-    RegExp('Działania niepożądane.+'),
-    RegExp('Przedawkowanie.+'),
-    RegExp('Działanie.+'),
-    RegExp('Skład.+'),
+    RegExp('Wskazania'),
+    RegExp('Dawkowanie'),
+    RegExp('Uwagi'),
+    RegExp('Przeciwwskazania'),
+    RegExp('Ostrzeżenia specjalne / Środki ostrożności'),
+    RegExp('Interakcje'),
+    RegExp('Ciąża i laktacja'),
+    RegExp('Działania niepożądane'),
+    RegExp('Przedawkowanie'),
+    RegExp('Działanie'),
+    RegExp('Skład'),
   ];
 
-  List<String> titlesList = [];
-  List<String> descriptionsList = [];
+  List<String> contentList = [];
 
   for (var title in titles) {
     for (var regex in listOfHeadtitles) {
       if (regex.hasMatch(title.text)) {
-        titlesList.add(title.text);
+        String text = title.text;
+        contentList.add(regex.pattern + '===' + text.split(regex)[1]);
       }
     }
   }
 
-  String fullRes = '';
-  for (int i = 0; i < titlesList.length; ++i) {
-    fullRes += titlesList[i] + '        ' + bodies[i].text.toString() + '\n';
-  }
-  print(fullRes);
-
-  for (var body in bodies) {
-    descriptionsList.add(body.text);
-  }
-
-  medicine = new Medicine(
-    name.text,
-    descriptionsList[0],
-    descriptionsList[1],
-    descriptionsList[2],
-    descriptionsList[3],
-    descriptionsList[4],
-    descriptionsList[5],
-    descriptionsList[6],
-    descriptionsList[7],
-    descriptionsList[8],
-    descriptionsList[9],
-    descriptionsList[10],
-  );
-
-  return medicine;
+  return contentList;
 }

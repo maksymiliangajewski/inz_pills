@@ -13,7 +13,9 @@ Map<String, String> medicines = {
   'Loxon Max':
       'http://bazalekow.leksykon.com.pl/informacja-o-lekach-Loxon-Max-3209406.html',
   'Dexilant':
-      'http://bazalekow.leksykon.com.pl/informacja-o-leku-Dexilant-26404021.html'
+      'http://bazalekow.leksykon.com.pl/informacja-o-leku-Dexilant-26404021.html',
+  'Aerius':
+      'http://bazalekow.leksykon.com.pl/informacja-o-lekach-Aerius-61.html'
 };
 List<String> medicinesNames = medicines.keys.toList();
 List<String> medicinesUrls = medicines.values.toList();

@@ -1,7 +1,6 @@
 import 'package:expansion_card/expansion_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inz_pills/Models/Medicine.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:inz_pills/Utils/MedicineWebScraper.dart' as scraper;
@@ -23,8 +22,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
   final String medicineName;
   final String medicineUrl;
   bool _isInAsyncCall = false;
-  String medicineInfo = '';
-  Medicine medicine;
+  List<String> medicineDetails;
 
   @override
   void initState() {
@@ -39,9 +37,8 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
   }
 
   Future<void> _getMedicine(String medicineUrl) async {
-    medicine = await scraper.getMedicine(medicineUrl);
+    medicineDetails = await scraper.getMedicine(medicineUrl);
     setState(() {
-      medicineInfo = medicine.printData();
       _isInAsyncCall = false;
     });
   }
@@ -125,148 +122,31 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                     Expanded(
                                         child: _isInAsyncCall
                                             ? SizedBox()
-                                            : ListView(
-                                                padding:
-                                                    EdgeInsets.only(top: 0),
-                                                children: [
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Indication',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.indication)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Dosage',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.dosage)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Comments',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.comments)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Contraindications',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine
-                                                          .contraindications)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Warnings',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.warnings)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Interactions',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(
-                                                          medicine.interactions)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Pregnancy',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.pregnancy)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Side effects',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.sideEffects)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Overdose',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.overdose)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Action',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.action)
-                                                    ],
-                                                  ),
-                                                  ExpansionCard(
-                                                    title: Text(
-                                                      'Composition',
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .prussianBlue,
-                                                          fontSize: 16),
-                                                    ),
-                                                    children: [
-                                                      Text(medicine.composition)
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: size.height * 0.2,
-                                                  )
-                                                ],
+                                            : Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 0, bottom: 100),
+                                                child: ListView.builder(
+                                                    itemCount:
+                                                        medicineDetails.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return (ExpansionCard(
+                                                        title: Text(
+                                                          medicineDetails[index]
+                                                              .split('===')[0],
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .prussianBlue,
+                                                              fontSize: 16),
+                                                        ),
+                                                        children: [
+                                                          Text(medicineDetails[
+                                                                  index]
+                                                              .split('===')[1])
+                                                        ],
+                                                      ));
+                                                    }),
                                               ))
                                   ],
                                 ),
@@ -284,3 +164,147 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
     );
   }
 }
+
+// ListView(
+// padding:
+// EdgeInsets.only(top: 0),
+// children: [
+// ExpansionCard(
+// title: Text(
+// 'Indication',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.indication)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Dosage',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.dosage)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Comments',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.comments)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Contraindications',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine
+//     .contraindications)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Warnings',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.warnings)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Interactions',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(
+// medicine.interactions)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Pregnancy',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.pregnancy)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Side effects',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.sideEffects)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Overdose',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.overdose)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Action',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.action)
+// ],
+// ),
+// ExpansionCard(
+// title: Text(
+// 'Composition',
+// style: TextStyle(
+// color: AppColors
+//     .prussianBlue,
+// fontSize: 16),
+// ),
+// children: [
+// Text(medicine.composition)
+// ],
+// ),
+// SizedBox(
+// height: size.height * 0.2,
+// )
+// ],
+// )
