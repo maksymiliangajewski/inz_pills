@@ -1,21 +1,27 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inz_pills/Pages/DrawerScreen.dart';
-import 'package:inz_pills/Pages/HomeScreen.dart';
+import 'package:inz_pills/Models/MyUser.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inz_pills/Services/Auth.dart';
+import 'package:inz_pills/Utils/Wrapper.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MaterialApp(
-      home: InzApp(),
-      theme: ThemeData(textTheme: GoogleFonts.alataTextTheme()),
-      debugShowCheckedModeBanner: false,
-    ));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(InzApp());
+}
 
 class InzApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [DrawerScreen(), HomeScreen()],
+    return StreamProvider<MyUser>.value(
+      value: AuthService().user,
+      child: MaterialApp(
+        home: Wrapper(),
+        theme: ThemeData(textTheme: GoogleFonts.alataTextTheme()),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

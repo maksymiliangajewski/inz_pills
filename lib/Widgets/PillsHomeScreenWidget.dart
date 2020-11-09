@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 
 class PillsHomeScreenWidget extends StatefulWidget {
+  final Dosage dosage;
+
+  PillsHomeScreenWidget({this.dosage});
+
   @override
   _PillsHomeScreenWidgetState createState() => _PillsHomeScreenWidgetState();
 }
@@ -40,8 +45,19 @@ class _PillsHomeScreenWidgetState extends State<PillsHomeScreenWidget> {
                     color: Colors.white,
                     boxShadow: shadowList,
                     borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20))),
+                        topRight: Radius.circular(20), bottomRight: Radius.circular(20))),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.dosage.medicine,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Text(widget.dosage.userId),
+                  ],
+                ),
               ),
             )
           ],

@@ -76,9 +76,8 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
               child: ModalProgressHUD(
                   color: Colors.transparent,
                   inAsyncCall: _isInAsyncCall,
-                  progressIndicator: Padding(
-                      padding: EdgeInsets.all(5),
-                      child: CircularProgressIndicator()),
+                  progressIndicator:
+                      Padding(padding: EdgeInsets.all(5), child: CircularProgressIndicator()),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -92,57 +91,44 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                 decoration: BoxDecoration(
                                   color: AppColors.honeydew,
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20)),
+                                      topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, left: 10),
+                                padding: const EdgeInsets.only(top: 20, left: 10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       'Details for:',
-                                      style: TextStyle(
-                                          color: AppColors.honeydew,
-                                          fontSize: 16),
+                                      style: TextStyle(color: AppColors.honeydew, fontSize: 16),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(
-                                          bottom: size.height * 0.07),
+                                      margin: EdgeInsets.only(bottom: size.height * 0.07),
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 10),
                                         child: Text(medicineName,
-                                            style: TextStyle(
-                                                color: AppColors.honeydew,
-                                                fontSize: 38)),
+                                            style:
+                                                TextStyle(color: AppColors.honeydew, fontSize: 38)),
                                       ),
                                     ),
                                     Expanded(
                                         child: _isInAsyncCall
                                             ? SizedBox()
                                             : Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 0, bottom: 100),
+                                                padding: const EdgeInsets.only(top: 0, bottom: 100),
                                                 child: ListView.builder(
-                                                    itemCount:
-                                                        medicineDetails.length,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
+                                                    itemCount: medicineDetails.length,
+                                                    itemBuilder: (BuildContext context, int index) {
                                                       return (ExpansionCard(
                                                         title: Text(
-                                                          medicineDetails[index]
-                                                              .split('===')[0],
+                                                          medicineDetails[index].split('===')[0],
                                                           style: TextStyle(
-                                                              color: AppColors
-                                                                  .prussianBlue,
+                                                              color: AppColors.prussianBlue,
                                                               fontSize: 16),
                                                         ),
                                                         children: [
-                                                          Text(medicineDetails[
-                                                                  index]
+                                                          Text(medicineDetails[index]
                                                               .split('===')[1])
                                                         ],
                                                       ));
@@ -164,147 +150,3 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
     );
   }
 }
-
-// ListView(
-// padding:
-// EdgeInsets.only(top: 0),
-// children: [
-// ExpansionCard(
-// title: Text(
-// 'Indication',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.indication)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Dosage',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.dosage)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Comments',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.comments)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Contraindications',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine
-//     .contraindications)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Warnings',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.warnings)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Interactions',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(
-// medicine.interactions)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Pregnancy',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.pregnancy)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Side effects',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.sideEffects)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Overdose',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.overdose)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Action',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.action)
-// ],
-// ),
-// ExpansionCard(
-// title: Text(
-// 'Composition',
-// style: TextStyle(
-// color: AppColors
-//     .prussianBlue,
-// fontSize: 16),
-// ),
-// children: [
-// Text(medicine.composition)
-// ],
-// ),
-// SizedBox(
-// height: size.height * 0.2,
-// )
-// ],
-// )

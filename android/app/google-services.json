@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "957021729119",
+    "firebase_url": "https://inzynierka-app.firebaseio.com",
+    "project_id": "inzynierka-app",
+    "storage_bucket": "inzynierka-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957021729119:android:d18c32d3b78bb4fc5f06ea",
+        "android_client_info": {
+          "package_name": "com.maksymiliangajewski.inz_pills"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "957021729119-cue7in0d4lsql6dd1dg7tng5oj8gbncb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbTDO8KH82Km0WN1E3bDimbDQIgqJd4Xk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "957021729119-cue7in0d4lsql6dd1dg7tng5oj8gbncb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
