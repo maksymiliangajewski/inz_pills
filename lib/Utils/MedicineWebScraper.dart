@@ -7,7 +7,8 @@ Future<List<String>> getMedicine(String medicineUrl) async {
   Response response = await client.get(medicineUrl);
 
   var document = parse(response.body);
-  List<Element> titles = document.querySelectorAll('span.descr_section');
+  List<Element> titles = document.querySelectorAll('span.descr_head');
+  List<Element> bodies = document.querySelectorAll('span.descr_body');
   List<RegExp> listOfHeadtitles = [
     RegExp('Wskazania'),
     RegExp('Dawkowanie'),
@@ -24,11 +25,10 @@ Future<List<String>> getMedicine(String medicineUrl) async {
 
   List<String> contentList = [];
 
-  for (var title in titles) {
-    for (var regex in listOfHeadtitles) {
-      if (regex.hasMatch(title.text)) {
-        String text = title.text;
-        contentList.add(regex.pattern + '===' + text.split(regex)[1]);
+  for (var regex in listOfHeadtitles) {
+    for (int i = 0; i < titles.length; ++i) {
+      if (regex.hasMatch(titles[i].text)) {
+        contentList.add(titles[i].text + '===' + bodies[i].text);
       }
     }
   }

@@ -19,7 +19,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<MyUser>(context);
-    print(user.uid);
 
     void _showUserEditPanel() {
       Navigator.push(context, MaterialPageRoute(builder: (context) => UserEditPanel()));
