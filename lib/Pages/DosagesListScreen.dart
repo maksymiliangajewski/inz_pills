@@ -1,23 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inz_pills/Models/Medicine.dart';
+import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
-import 'package:inz_pills/Widgets/MedicinesList.dart';
+import 'package:inz_pills/Widgets/DosagesList.dart';
 import 'package:provider/provider.dart';
 
-class MedicinesListScreen extends StatefulWidget {
+class DosagesListScreen extends StatefulWidget {
   @override
-  _MedicinesListScreenState createState() => _MedicinesListScreenState();
+  _DosagesListScreenState createState() => _DosagesListScreenState();
 }
 
-class _MedicinesListScreenState extends State<MedicinesListScreen> {
+class _DosagesListScreenState extends State<DosagesListScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<MyUser>(context);
-    return StreamProvider<List<Medicine>>.value(
-      value: DatabaseService(uid: user.uid).userMedicines,
+
+    return StreamProvider<List<Dosage>>.value(
+      value: DatabaseService(uid: user.uid).userDosages,
       child: Material(
         child: Container(
           decoration: BoxDecoration(color: AppColors.honeydew),
@@ -35,7 +35,7 @@ class _MedicinesListScreenState extends State<MedicinesListScreen> {
                           Navigator.pop(context);
                         }),
                     Text(
-                      'List of your medicines',
+                      'List of your dosages',
                       style: TextStyle(fontSize: 20),
                     ),
                     SizedBox(
@@ -46,7 +46,7 @@ class _MedicinesListScreenState extends State<MedicinesListScreen> {
               ),
               SizedBox(height: 10),
               Expanded(
-                child: MedicinesList(),
+                child: DosagesList(),
               ),
             ],
           ),

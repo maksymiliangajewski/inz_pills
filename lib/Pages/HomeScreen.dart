@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inz_pills/Models/Dosage.dart';
+import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Widgets/HomeScreenDosagesList.dart';
@@ -19,8 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<MyUser>(context);
+
     return StreamProvider<List<Dosage>>.value(
-      value: DatabaseService().dosages,
+      value: DatabaseService(uid: user.uid).userDosages,
       child: AnimatedContainer(
         transform: Matrix4.translationValues(xOffset, yOffset, 0)..scale(scaleFactor),
         duration: Duration(milliseconds: 300),
@@ -108,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Text(
-                  'Your upcoming pills',
+                  'Your upcoming dosages',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

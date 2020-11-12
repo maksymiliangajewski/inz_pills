@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:inz_pills/Pages/DosagesListScreen.dart';
 import 'package:inz_pills/Pages/MedicinesListScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 
@@ -50,7 +51,7 @@ class HomePageButton extends StatelessWidget {
           case 'Medication':
             return MedicinesListScreen();
           case 'Dosages':
-            return null;
+            return DosagesListScreen();
           case 'Search':
             return null;
           default:
@@ -61,8 +62,7 @@ class HomePageButton extends StatelessWidget {
         var begin = Offset(1.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
           child: child,

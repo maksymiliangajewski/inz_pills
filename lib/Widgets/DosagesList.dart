@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Utils/Loading.dart';
 import 'package:inz_pills/Widgets/HomeScreenDosagesListTileWidget.dart';
 import 'package:provider/provider.dart';
-import 'package:inz_pills/Models/Dosage.dart';
 
-class HomeScreenDosagesList extends StatefulWidget {
+class DosagesList extends StatefulWidget {
   @override
-  _HomeScreenDosagesListState createState() => _HomeScreenDosagesListState();
+  _DosagesListState createState() => _DosagesListState();
 }
 
-class _HomeScreenDosagesListState extends State<HomeScreenDosagesList> {
+class _DosagesListState extends State<DosagesList> {
   @override
   Widget build(BuildContext context) {
     final userDosages = Provider.of<List<Dosage>>(context);

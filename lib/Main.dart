@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inz_pills/Services/Auth.dart';
-import 'package:inz_pills/Utils/Wrapper.dart';
 import 'package:provider/provider.dart';
+import 'Wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

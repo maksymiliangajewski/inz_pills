@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inz_pills/Authenticate/Authenticate.dart';
 import 'package:inz_pills/Models/MyUser.dart';
-import 'package:inz_pills/Pages/Home.dart';
 import 'package:provider/provider.dart';
+import 'Home.dart';
 
 class Wrapper extends StatelessWidget {
   @override

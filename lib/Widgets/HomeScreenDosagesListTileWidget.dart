@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 
-class PillsHomeScreenWidget extends StatefulWidget {
+class HomeScreenDosagesListTileWidget extends StatefulWidget {
   final Dosage dosage;
 
-  PillsHomeScreenWidget({this.dosage});
+  HomeScreenDosagesListTileWidget({this.dosage});
 
   @override
-  _PillsHomeScreenWidgetState createState() => _PillsHomeScreenWidgetState();
+  _HomeScreenDosagesListTileWidgetState createState() => _HomeScreenDosagesListTileWidgetState();
 }
 
-class _PillsHomeScreenWidgetState extends State<PillsHomeScreenWidget> {
+class _HomeScreenDosagesListTileWidgetState extends State<HomeScreenDosagesListTileWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -52,10 +52,13 @@ class _PillsHomeScreenWidgetState extends State<PillsHomeScreenWidget> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         widget.dosage.medicine,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ),
-                    Text(widget.dosage.userId),
+                    SizedBox(height: 5),
+                    Text(widget.dosage.dose),
+                    SizedBox(height: 10),
+                    Text(widget.dosage.getDateTimeString()),
                   ],
                 ),
               ),

@@ -2,6 +2,7 @@ import 'package:expansion_card/expansion_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/Loading.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:inz_pills/Utils/MedicineWebScraper.dart' as scraper;
 
@@ -76,8 +77,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
               child: ModalProgressHUD(
                   color: Colors.transparent,
                   inAsyncCall: _isInAsyncCall,
-                  progressIndicator:
-                      Padding(padding: EdgeInsets.all(5), child: CircularProgressIndicator()),
+                  progressIndicator: Padding(padding: EdgeInsets.all(5), child: Loading()),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [

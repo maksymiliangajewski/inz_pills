@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inz_pills/Models/Dosage.dart';
+import 'package:inz_pills/Models/Medicine.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 
 class DatabaseService {
@@ -35,6 +36,18 @@ class DatabaseService {
       return Dosage(
         userId: document.data()['userId'] ?? '',
         medicine: document.data()['medicine'] ?? '',
+        medLink: document.data()['medLink'] ?? '',
+        dose: document.data()['dose'] ?? '',
+        takeTime: document.data()['takeTime'] ?? '',
+      );
+    }).toList();
+  }
+
+  List<Medicine> _medicineListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((document) {
+      return Medicine(
+        name: document.data()['medicine'] ?? '',
+        link: document.data()['medLink'] ?? '',
       );
     }).toList();
   }
@@ -47,5 +60,21 @@ class DatabaseService {
   // get user doc stream
   Stream<MyUser> get userData {
     return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
+  }
+
+  // get specific user dosages stream
+  Stream<List<Dosage>> get userDosages {
+    final Query specificUserDosagesCollection =
+        FirebaseFirestore.instance.collection('dosages').where('userId', isEqualTo: uid);
+
+    return specificUserDosagesCollection.snapshots().map(_dosageListFromSnapshot);
+  }
+
+  // get medicines from user dosages
+  Stream<List<Medicine>> get userMedicines {
+    final Query specificUserDosagesCollection =
+        FirebaseFirestore.instance.collection('dosages').where('userId', isEqualTo: uid);
+
+    return specificUserDosagesCollection.snapshots().map(_medicineListFromSnapshot);
   }
 }

@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:inz_pills/Pages/MedicineDetailsScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 
-class PillsDetailsScreenWidget extends StatefulWidget {
+class MedicineListTileWidget extends StatefulWidget {
   final String title;
   final String medicineUrl;
 
   @override
-  _PillsDetailsScreenWidgetState createState() =>
-      _PillsDetailsScreenWidgetState(title, medicineUrl);
+  _MedicineListTileWidgetState createState() => _MedicineListTileWidgetState(title, medicineUrl);
 
-  PillsDetailsScreenWidget(this.title, this.medicineUrl);
+  MedicineListTileWidget(this.title, this.medicineUrl);
 }
 
-class _PillsDetailsScreenWidgetState extends State<PillsDetailsScreenWidget> {
-  _PillsDetailsScreenWidgetState(this.title, this.medicineUrl);
+class _MedicineListTileWidgetState extends State<MedicineListTileWidget> {
+  _MedicineListTileWidgetState(this.title, this.medicineUrl);
 
   final String title;
   final String medicineUrl;
@@ -55,8 +54,7 @@ class _PillsDetailsScreenWidgetState extends State<PillsDetailsScreenWidget> {
                     color: Colors.white,
                     boxShadow: shadowList,
                     borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20))),
+                        topRight: Radius.circular(20), bottomRight: Radius.circular(20))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -94,8 +92,7 @@ class _PillsDetailsScreenWidgetState extends State<PillsDetailsScreenWidget> {
         var begin = Offset(1.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
           child: child,
