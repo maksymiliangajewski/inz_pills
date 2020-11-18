@@ -20,7 +20,7 @@ List<Dosage> dosageList = [
       takeTime: Timestamp.fromDate(DateTime.now().add(Duration(seconds: 15)))),
   new Dosage(
       dose: '1 psik',
-      medicine: 'Nasonexxxxx',
+      medicine: 'Nasonex',
       takeTime: Timestamp.fromDate(DateTime.now().add(Duration(seconds: 20)))),
 ];
 
