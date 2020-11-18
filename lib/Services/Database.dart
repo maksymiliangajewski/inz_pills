@@ -57,6 +57,7 @@ class DatabaseService {
     return dosagesCollection.snapshots().map(_dosageListFromSnapshot);
   }
 
+  //get list of dosages for current user
   Future<List<Dosage>> getUserDosagesList() async {
     List<Dosage> dosagesList = [];
 

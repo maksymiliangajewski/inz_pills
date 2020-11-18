@@ -5,25 +5,6 @@ import 'package:inz_pills/Services/Database.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-List<Dosage> dosageList = [
-  new Dosage(
-      dose: '1 tabletka',
-      medicine: 'Polopiryna',
-      takeTime: Timestamp.fromDate(DateTime.now().add(Duration(seconds: 5)))),
-  new Dosage(
-      dose: '1 tabletka',
-      medicine: 'Aspiryna',
-      takeTime: Timestamp.fromDate(DateTime.now().add(Duration(seconds: 10)))),
-  new Dosage(
-      dose: '1 tabletka',
-      medicine: 'Ipubrom',
-      takeTime: Timestamp.fromDate(DateTime.now().add(Duration(seconds: 15)))),
-  new Dosage(
-      dose: '1 psik',
-      medicine: 'Nasonex',
-      takeTime: Timestamp.fromDate(DateTime.now().add(Duration(seconds: 20)))),
-];
-
 class LocalNotifications {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
@@ -40,7 +21,10 @@ class LocalNotifications {
   Future showNotificationFromList(
       int hashcode, String title, String body, DateTime takeTime) async {
     final scheduledDate = tz.TZDateTime.from(takeTime, tz.local);
-    if (scheduledDate.isBefore(DateTime.now())) {
+    print(title);
+    print(DateTime.now());
+    print(scheduledDate.add(Duration(hours: 1)));
+    if (takeTime.isBefore(DateTime.now())) {
       print('date in the past, cannot add');
       print(takeTime);
     } else {
@@ -83,30 +67,21 @@ class LocalNotifications {
 
   void loadNotifications(String uid) {
     print('loading notifications');
-    // DatabaseService(uid: uid).getUserDosagesList().then((value) {
-    //   List<Dosage> dosagesList = [];
-    //   value.forEach((element) {
-    //     Dosage dosage = new Dosage(
-    //         userId: element.userId,
-    //         medicine: element.medicine,
-    //         medLink: element.medLink,
-    //         dose: element.dose,
-    //         takeTime: element.takeTime);
-    //     dosagesList.add(dosage);
-    //   });
-    //   dosagesList.forEach((element) async {
-    //     await _showNotificationsFromList(
-    //         element.hashCode,
-    //         element.medicine,
-    //         element.dose,
-    //         DateTime.fromMillisecondsSinceEpoch(element.takeTime.seconds * 1000)
-    //             .add(Duration(hours: 1)));
-    //   });
-    // });
-
-    dosageList.forEach((element) async {
-      await showNotificationFromList(element.hashCode, element.medicine, element.dose,
-          DateTime.fromMillisecondsSinceEpoch(element.takeTime.seconds * 1000));
+    DatabaseService(uid: uid).getUserDosagesList().then((value) {
+      List<Dosage> dosagesList = [];
+      value.forEach((element) {
+        Dosage dosage = new Dosage(
+            userId: element.userId,
+            medicine: element.medicine,
+            medLink: element.medLink,
+            dose: element.dose,
+            takeTime: element.takeTime);
+        dosagesList.add(dosage);
+      });
+      dosagesList.forEach((element) async {
+        await showNotificationFromList(element.hashCode, element.medicine, element.dose,
+            DateTime.fromMillisecondsSinceEpoch(element.takeTime.seconds * 1000).toLocal());
+      });
     });
   }
 

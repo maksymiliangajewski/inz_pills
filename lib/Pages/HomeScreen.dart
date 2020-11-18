@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
@@ -31,6 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _notifications.initializeSettings();
     print('notifications settings initialized');
+    _notifications.cancelAllNotifications();
+    _notifications.loadNotifications(widget.uid);
+    print('notifications loaded');
   }
 
   @override
@@ -95,13 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       width: 40,
                     ),
-                    IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          _notifications.cancelAllNotifications();
-                          _notifications.loadNotifications(widget.uid);
-                          print('notifications loaded');
-                        }),
+                    IconButton(icon: Icon(Icons.add), onPressed: () {}),
                   ],
                 ),
               ),
@@ -120,6 +118,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ' ' +
                         element.payload);
                   });
+                  Fluttertoast.showToast(
+                    msg: "${pendingNotificationRequests.length} Notifications loaded from database",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                  );
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
