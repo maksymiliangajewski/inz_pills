@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/LocalNotifications.dart';
 import 'package:inz_pills/Widgets/HomeScreenDosagesList.dart';
 import 'package:inz_pills/widgets/HomePageButton.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  final String uid;
+
+  const HomeScreen({Key key, this.uid}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final LocalNotifications _notifications = LocalNotifications();
+
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
   bool isDrawerOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _notifications.initializeSettings();
+    print('notifications settings initialized');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,22 +94,46 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(
                       width: 40,
-                    )
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          _notifications.cancelAllNotifications();
+                          _notifications.loadNotifications(widget.uid);
+                          print('notifications loaded');
+                        }),
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.add),
-                    Text('Create new reminder'),
-                    SizedBox(width: 20),
-                  ],
+              InkWell(
+                onTap: () async {
+                  final List<PendingNotificationRequest> pendingNotificationRequests =
+                      await _notifications.flutterLocalNotificationsPlugin
+                          .pendingNotificationRequests();
+                  print(pendingNotificationRequests.length);
+                  pendingNotificationRequests.forEach((element) {
+                    print(element.id.toString() +
+                        ' ' +
+                        element.title.toString() +
+                        ' ' +
+                        element.body.toString() +
+                        ' ' +
+                        element.payload);
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.add),
+                      Text('Create new reminder'),
+                      SizedBox(width: 20),
+                    ],
+                  ),
                 ),
               ),
               Container(
