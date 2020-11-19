@@ -9,11 +9,13 @@ import 'package:inz_pills/Utils/LocalNotifications.dart';
 import 'package:inz_pills/Widgets/HomeScreenDosagesList.dart';
 import 'package:inz_pills/widgets/HomePageButton.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   final String uid;
+  final bool showNotifications;
 
-  const HomeScreen({Key key, this.uid}) : super(key: key);
+  const HomeScreen({Key key, this.uid, this.showNotifications}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final LocalNotifications _notifications = LocalNotifications();
+  bool showNotifications;
 
   double xOffset = 0;
   double yOffset = 0;
@@ -33,8 +36,22 @@ class _HomeScreenState extends State<HomeScreen> {
     _notifications.initializeSettings();
     print('notifications settings initialized');
     _notifications.cancelAllNotifications();
-    _notifications.loadNotifications(widget.uid);
-    print('notifications loaded');
+    showNotifications = widget.showNotifications;
+    if (widget.showNotifications) {
+      _notifications.loadNotifications(widget.uid);
+      print('notifications loaded');
+      Fluttertoast.showToast(
+        msg: "Notification loaded on start!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "Notification are disabled.",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
   }
 
   @override
@@ -132,9 +149,42 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.add),
-                      Text('Create new reminder'),
-                      SizedBox(width: 20),
+                      Row(
+                        children: [
+                          Icon(Icons.add),
+                          Text('New reminder'),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Notifications'),
+                          Switch(
+                              value: showNotifications,
+                              onChanged: (value) async {
+                                if (value) {
+                                  _notifications.cancelAllNotifications();
+                                  _notifications.loadNotifications(widget.uid);
+                                  Fluttertoast.showToast(
+                                    msg: 'Notifications has just been reloaded!',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                  );
+                                } else {
+                                  _notifications.cancelAllNotifications();
+                                  Fluttertoast.showToast(
+                                    msg: 'All your notifications are now muted.',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                  );
+                                }
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setBool('showNotifications', !showNotifications);
+                                setState(() {
+                                  showNotifications = value;
+                                });
+                              }),
+                        ],
+                      )
                     ],
                   ),
                 ),
