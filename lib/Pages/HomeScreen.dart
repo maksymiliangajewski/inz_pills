@@ -68,6 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.honeydew,
         ),
         child: GestureDetector(
+          //when DrawerScreen opened, HitTestBehavior.opaque allows to
+          // receive click anywhere on HomeScreen widget
+          behavior: HitTestBehavior.opaque,
           onTap: () {
             if (isDrawerOpen) {
               setState(() {
@@ -78,137 +81,142 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             }
           },
-          child: Column(
-            children: [
-              SizedBox(
-                height: 40,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    isDrawerOpen
-                        ? IconButton(
-                            icon: Icon(Icons.arrow_back_ios),
-                            onPressed: () {
-                              setState(() {
-                                xOffset = 0;
-                                yOffset = 0;
-                                scaleFactor = 1;
-                                isDrawerOpen = false;
-                              });
-                            })
-                        : IconButton(
-                            icon: Icon(Icons.menu),
-                            onPressed: () {
-                              setState(() {
-                                xOffset = 230;
-                                yOffset = 150;
-                                scaleFactor = 0.6;
-                                isDrawerOpen = true;
-                              });
-                            }),
-                    Text(
-                      'Inzynierka App',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
-                      width: 40,
-                    ),
-                    IconButton(icon: Icon(Icons.add), onPressed: () {}),
-                  ],
+          // to block accidental clicks when DrawerScreen is opened
+          child: IgnorePointer(
+            //whenever DrawerScreen is open, all clickable Widgets on HomeScreen are disabled
+            ignoring: isDrawerOpen,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 40,
                 ),
-              ),
-              InkWell(
-                onTap: () async {
-                  final List<PendingNotificationRequest> pendingNotificationRequests =
-                      await _notifications.flutterLocalNotificationsPlugin
-                          .pendingNotificationRequests();
-                  print(pendingNotificationRequests.length);
-                  pendingNotificationRequests.forEach((element) {
-                    print(element.id.toString() +
-                        ' ' +
-                        element.title.toString() +
-                        ' ' +
-                        element.body.toString() +
-                        ' ' +
-                        element.payload);
-                  });
-                  Fluttertoast.showToast(
-                    msg: "${pendingNotificationRequests.length} Notifications loaded from database",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Icon(Icons.add),
-                          Text('New reminder'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Notifications'),
-                          Switch(
-                              value: showNotifications,
-                              onChanged: (value) async {
-                                if (value) {
-                                  _notifications.cancelAllNotifications();
-                                  _notifications.loadNotifications(widget.uid);
-                                  Fluttertoast.showToast(
-                                    msg: 'Notifications has just been reloaded!',
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.BOTTOM,
-                                  );
-                                } else {
-                                  _notifications.cancelAllNotifications();
-                                  Fluttertoast.showToast(
-                                    msg: 'All your notifications are now muted.',
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.BOTTOM,
-                                  );
-                                }
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                prefs.setBool('showNotifications', !showNotifications);
+                      isDrawerOpen
+                          ? IconButton(
+                              icon: Icon(Icons.arrow_back_ios),
+                              onPressed: () {
                                 setState(() {
-                                  showNotifications = value;
+                                  xOffset = 0;
+                                  yOffset = 0;
+                                  scaleFactor = 1;
+                                  isDrawerOpen = false;
+                                });
+                              })
+                          : IconButton(
+                              icon: Icon(Icons.menu),
+                              onPressed: () {
+                                setState(() {
+                                  xOffset = 230;
+                                  yOffset = 150;
+                                  scaleFactor = 0.6;
+                                  isDrawerOpen = true;
                                 });
                               }),
-                        ],
-                      )
+                      Text(
+                        'Inzynierka App',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
                     ],
                   ),
                 ),
-              ),
-              Container(
-                height: 120,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    HomePageButton('Medication', 'drugs.png'),
-                    HomePageButton('Dosages', 'doctor.png'),
-                    HomePageButton('Search', 'magnifying-glass.png'),
-                  ],
+                InkWell(
+                  onTap: () async {
+                    final List<PendingNotificationRequest> pendingNotificationRequests =
+                        await _notifications.flutterLocalNotificationsPlugin
+                            .pendingNotificationRequests();
+                    print(pendingNotificationRequests.length);
+                    pendingNotificationRequests.forEach((element) {
+                      print(element.id.toString() +
+                          ' ' +
+                          element.title.toString() +
+                          ' ' +
+                          element.body.toString() +
+                          ' ' +
+                          element.payload);
+                    });
+                    Fluttertoast.showToast(
+                      msg:
+                          "${pendingNotificationRequests.length} Notifications loaded from database",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.add),
+                            Text('New reminder'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Notifications'),
+                            Switch(
+                                value: showNotifications,
+                                onChanged: (value) async {
+                                  if (value) {
+                                    _notifications.cancelAllNotifications();
+                                    _notifications.loadNotifications(widget.uid);
+                                    Fluttertoast.showToast(
+                                      msg: 'Notifications has just been reloaded!',
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                    );
+                                  } else {
+                                    _notifications.cancelAllNotifications();
+                                    Fluttertoast.showToast(
+                                      msg: 'All your notifications are now muted.',
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                    );
+                                  }
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  prefs.setBool('showNotifications', !showNotifications);
+                                  setState(() {
+                                    showNotifications = value;
+                                  });
+                                }),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Text(
-                  'Your upcoming dosages',
-                  style: TextStyle(fontSize: 20),
+                Container(
+                  height: 120,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      HomePageButton('Medication', 'drugs.png'),
+                      HomePageButton('Dosages', 'doctor.png'),
+                      HomePageButton('Search', 'magnifying-glass.png'),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(child: HomeScreenDosagesList())
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    'Your upcoming dosages',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                Expanded(child: HomeScreenDosagesList())
+              ],
+            ),
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:calendar_time/calendar_time.dart';
 import 'package:flutter/material.dart';
 import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Utils/Colors.dart';
@@ -12,6 +13,14 @@ class HomeScreenDosagesListTileWidget extends StatefulWidget {
 }
 
 class _HomeScreenDosagesListTileWidgetState extends State<HomeScreenDosagesListTileWidget> {
+  Color color;
+
+  @override
+  void initState() {
+    super.initState();
+    color = customizeTileByDate();
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -25,9 +34,7 @@ class _HomeScreenDosagesListTileWidgetState extends State<HomeScreenDosagesListT
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: AppColors.powderBlue,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: shadowList),
+                      color: color, borderRadius: BorderRadius.circular(12), boxShadow: shadowList),
                 ),
                 Align(
                   child: Image.asset(
@@ -67,5 +74,31 @@ class _HomeScreenDosagesListTileWidgetState extends State<HomeScreenDosagesListT
         ),
       ),
     );
+  }
+
+  Color customizeTileByDate() {
+    final now = DateTime.now();
+    final endOfToday = DateTime(now.year, now.month, now.day, 23, 59, 59);
+    final takeTime =
+        DateTime.fromMillisecondsSinceEpoch(widget.dosage.takeTime.seconds * 1000).toLocal();
+
+    if (takeTime.difference(now).inSeconds < 0) {
+      // date in the past
+      return Colors.red;
+    } else if (takeTime.difference(now).inSeconds > 0) {
+      if (takeTime.difference(endOfToday).inSeconds < 0) {
+        // today
+        return Colors.green;
+      } else if (CalendarTime(takeTime).isTomorrow) {
+        // tomorrow
+        return Colors.teal;
+      } else {
+        // some day in the future
+        return Colors.blue;
+      }
+    } else {
+      // NOW
+      return Colors.black;
+    }
   }
 }

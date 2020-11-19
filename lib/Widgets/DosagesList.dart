@@ -13,6 +13,9 @@ class _DosagesListState extends State<DosagesList> {
   @override
   Widget build(BuildContext context) {
     final userDosages = Provider.of<List<Dosage>>(context);
+    if (userDosages != null) {
+      userDosages.sort((a, b) => a.takeTime.compareTo(b.takeTime));
+    }
     return userDosages == null
         ? Loading()
         : ListView.builder(
