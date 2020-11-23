@@ -64,6 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
         transform: Matrix4.translationValues(xOffset, yOffset, 0)..scale(scaleFactor),
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppColors.powderBlue, AppColors.caladonBlue]),
           borderRadius: BorderRadius.circular(isDrawerOpen ? 30 : 0),
           color: AppColors.honeydew,
         ),
@@ -207,14 +211,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    'Your upcoming dosages',
-                    style: TextStyle(fontSize: 20),
-                  ),
+                Text(
+                  'Your upcoming dosages',
+                  style: TextStyle(fontSize: 20),
                 ),
-                Expanded(child: HomeScreenDosagesList())
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20), color: Colors.white),
+                      child: HomeScreenDosagesList()),
+                ))
               ],
             ),
           ),

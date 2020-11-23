@@ -30,7 +30,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
         if (snapshot.hasData) {
           MyUser userData = snapshot.data;
           return Container(
-            color: AppColors.prussianBlue,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [AppColors.prussianBlue, AppColors.caladonBlue])),
             padding: EdgeInsets.only(top: 60, left: 20, bottom: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
