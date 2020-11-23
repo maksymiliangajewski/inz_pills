@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:inz_pills/Pages/MedicineDetailsScreen.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:inz_pills/Models/Appointment.dart';
+import 'package:inz_pills/Pages/AppointmentDetailsScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 
-class MedicineListTileWidget extends StatefulWidget {
-  final String title;
-  final String medicineUrl;
+class AppointmentsListTileWidget extends StatefulWidget {
+  final Appointment appointment;
+  final Address address;
+
+  AppointmentsListTileWidget(this.appointment, this.address);
 
   @override
-  _MedicineListTileWidgetState createState() => _MedicineListTileWidgetState(title, medicineUrl);
-
-  MedicineListTileWidget(this.title, this.medicineUrl);
+  _AppointmentsListTileWidgetState createState() => _AppointmentsListTileWidgetState();
 }
 
-class _MedicineListTileWidgetState extends State<MedicineListTileWidget> {
-  _MedicineListTileWidgetState(this.title, this.medicineUrl);
-
-  final String title;
-  final String medicineUrl;
-
+class _AppointmentsListTileWidgetState extends State<AppointmentsListTileWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -34,13 +31,13 @@ class _MedicineListTileWidgetState extends State<MedicineListTileWidget> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: AppColors.prussianBlue,
+                      color: AppColors.caladonBlue,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: shadowList),
                 ),
                 Align(
                   child: Image.asset(
-                    'images/medicine.png',
+                    'images/consultation.png',
                     width: MediaQuery.of(context).size.width * 0.19,
                   ),
                 )
@@ -59,11 +56,15 @@ class _MedicineListTileWidgetState extends State<MedicineListTileWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 35),
+                      padding: const EdgeInsets.only(top: 15),
                       child: Text(
-                        title,
-                        style: TextStyle(fontSize: 26),
+                        widget.appointment.doctorSpecialisation,
+                        style: TextStyle(fontSize: 22),
                       ),
+                    ),
+                    Text(
+                      widget.appointment.getDateTimeString(),
+                      style: TextStyle(fontSize: 16),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 15, bottom: 9),
@@ -87,7 +88,7 @@ class _MedicineListTileWidgetState extends State<MedicineListTileWidget> {
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          MedicineDetailsScreen(title, medicineUrl),
+          AppointmentDetailsScreen(widget.appointment, widget.address),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(1.0, 0.0);
         var end = Offset.zero;

@@ -202,8 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       HomePageButton('Medication', 'drugs.png'),
-                      HomePageButton('Dosages', 'doctor.png'),
-                      HomePageButton('Search', 'magnifying-glass.png'),
+                      HomePageButton('Dosages', 'dosages.png'),
+                      HomePageButton('Appointments', 'appointments.png'),
                     ],
                   ),
                 ),

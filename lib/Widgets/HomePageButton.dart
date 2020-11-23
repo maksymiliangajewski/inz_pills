@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:inz_pills/Pages/AppointmentsListScreen.dart';
 import 'package:inz_pills/Pages/DosagesListScreen.dart';
 import 'package:inz_pills/Pages/MedicinesListScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
@@ -52,8 +53,8 @@ class HomePageButton extends StatelessWidget {
             return MedicinesListScreen();
           case 'Dosages':
             return DosagesListScreen();
-          case 'Search':
-            return null;
+          case 'Appointments':
+            return AppointmentsListScreen();
           default:
             return null;
         }
