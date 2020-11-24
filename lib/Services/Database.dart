@@ -95,6 +95,28 @@ class DatabaseService {
     return dosagesList;
   }
 
+  Future<List<Appointment>> getUserAppointmentsList() async {
+    List<Appointment> appointmentsList = [];
+
+    await FirebaseFirestore.instance
+        .collection('appointments')
+        .where('userId', isEqualTo: uid)
+        .get()
+        .then((value) {
+      value.docs.forEach((document) {
+        appointmentsList.add(new Appointment(
+          userId: document.data()['userId'] ?? '',
+          date: document.data()['date'] ?? '',
+          doctorName: document.data()['doctorName'] ?? '',
+          doctorSpecialisation: document.data()['doctorSpecialisation'] ?? '',
+          location: document.data()['location'] ?? '',
+        ));
+      });
+    });
+
+    return appointmentsList;
+  }
+
   // get user doc stream
   Stream<MyUser> get userData {
     return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);

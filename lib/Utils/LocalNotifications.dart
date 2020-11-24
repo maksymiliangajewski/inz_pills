@@ -1,4 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:inz_pills/Models/Appointment.dart';
 import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -46,24 +48,6 @@ class LocalNotifications {
     }
   }
 
-  Future showNotification() async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'Prompted notification title',
-        'Prompted notification body',
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
-        NotificationDetails(
-            android: AndroidNotificationDetails(
-              'Some ID',
-              'Flutter notifications app',
-              'Testing notifications',
-              importance: Importance.max,
-            ),
-            iOS: IOSNotificationDetails()),
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
-  }
-
   void loadNotifications(String uid) {
     print('loading notifications');
     DatabaseService(uid: uid).getUserDosagesList().then((value) {
@@ -80,6 +64,31 @@ class LocalNotifications {
       dosagesList.forEach((element) async {
         await showNotificationFromList(element.hashCode, element.medicine, element.dose,
             DateTime.fromMillisecondsSinceEpoch(element.takeTime.seconds * 1000).toLocal());
+      });
+    });
+    print('loading reminders');
+    DatabaseService(uid: uid).getUserAppointmentsList().then((value) {
+      List<Appointment> appointmentsList = [];
+      value.forEach((element) {
+        Appointment appointment = new Appointment(
+            userId: element.userId,
+            date: element.date,
+            doctorName: element.doctorName,
+            doctorSpecialisation: element.doctorSpecialisation,
+            location: element.location);
+        appointmentsList.add(appointment);
+      });
+      appointmentsList.forEach((element) async {
+        final coordinates = new Coordinates(element.location.latitude, element.location.longitude);
+        var address = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+        Address locationAddress = address.first;
+        await showNotificationFromList(
+            element.hashCode,
+            element.doctorSpecialisation + ' - ' + element.doctorName,
+            element.getDateTimeString() + ' - ' + locationAddress.addressLine,
+            DateTime.fromMillisecondsSinceEpoch(element.date.seconds * 1000)
+                .toLocal()
+                .subtract(Duration(hours: 2)));
       });
     });
   }

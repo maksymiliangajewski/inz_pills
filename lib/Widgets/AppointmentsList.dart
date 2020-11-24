@@ -43,25 +43,3 @@ class _AppointmentsListState extends State<AppointmentsList> {
     return address.first;
   }
 }
-
-// return Container(
-// child: Column(
-// children: [
-// Text(userAppointments[index].getDateTimeString()),
-// Text(userAppointments[index].userId),
-// Text(userAppointments[index].doctorName),
-// Text(userAppointments[index].doctorSpecialisation),
-// Text(address.addressLine),
-// FlatButton(
-// onPressed: () async {
-// String googleUrl =
-//     'https://www.google.com/maps/search/?api=1&query=${userAppointments[index].location.latitude},${userAppointments[index].location.longitude}';
-// if (await canLaunch(googleUrl)) {
-// await launch(googleUrl);
-// } else {
-// throw 'Could not open the map.';
-// }
-// },
-// child: Text('Click here to open in Google Maps'))
-// ],
-// ));
