@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:inz_pills/Models/Appointment.dart';
@@ -8,15 +10,32 @@ import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotifications {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  BuildContext context;
 
-  void initializeSettings() {
+  void initializeSettings(BuildContext ctx) {
+    context = ctx;
     tz.initializeTimeZones();
     var androidInitialize = new AndroidInitializationSettings('notification_icon');
     var iosInitialize = new IOSInitializationSettings();
     var initializationSettings =
         new InitializationSettings(android: androidInitialize, iOS: iosInitialize);
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String payload) async {
+      List<String> payloadSplitted = payload.split('===');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+                title: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(payloadSplitted[0]),
+                ),
+                content: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(payloadSplitted[1]),
+                ),
+              ));
+    });
   }
 
   Future showNotificationFromList(
@@ -43,8 +62,8 @@ class LocalNotifications {
               ),
               iOS: IOSNotificationDetails()),
           androidAllowWhileIdle: true,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+          payload: title + '===' + body);
     }
   }
 
@@ -85,7 +104,7 @@ class LocalNotifications {
         await showNotificationFromList(
             element.hashCode,
             element.doctorSpecialisation + ' - ' + element.doctorName,
-            element.getDateTimeString() + ' - ' + locationAddress.addressLine,
+            element.getDateTimeString() + '\n' + locationAddress.addressLine,
             DateTime.fromMillisecondsSinceEpoch(element.date.seconds * 1000)
                 .toLocal()
                 .subtract(Duration(hours: 2)));

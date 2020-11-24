@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _notifications.initializeSettings();
+    _notifications.initializeSettings(context);
     print('notifications settings initialized');
     _notifications.cancelAllNotifications();
     showNotifications = widget.showNotifications;
