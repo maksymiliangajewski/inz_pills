@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Auth.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/Loading.dart';
+import 'package:inz_pills/Utils/LocalNotifications.dart';
 import 'package:inz_pills/Widgets/UserEditPanel.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerScreen extends StatefulWidget {
+  final LocalNotifications notifs;
+
+  const DrawerScreen({Key key, this.notifs}) : super(key: key);
+
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
   final AuthService _auth = AuthService();
+  LocalNotifications _notifications;
+
+  @override
+  void initState() {
+    super.initState();
+    _notifications = widget.notifs;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,9 +154,32 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       color: AppColors.honeydew,
                     ),
                     SizedBox(width: 10),
-                    Text(
-                      'Settings',
-                      style: TextStyle(color: AppColors.honeydew, fontWeight: FontWeight.bold),
+                    RaisedButton(
+                      onPressed: () async {
+                        final List<PendingNotificationRequest> pendingNotificationRequests =
+                            await _notifications.flutterLocalNotificationsPlugin
+                                .pendingNotificationRequests();
+                        print(pendingNotificationRequests.length);
+                        pendingNotificationRequests.forEach((element) {
+                          print(element.id.toString() +
+                              ' ' +
+                              element.title.toString() +
+                              ' ' +
+                              element.body.toString() +
+                              ' ' +
+                              element.payload);
+                        });
+                        Fluttertoast.showToast(
+                          msg:
+                              "${pendingNotificationRequests.length} Notifications loaded from database",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                        );
+                      },
+                      child: Text(
+                        'Settings',
+                        style: TextStyle(color: AppColors.honeydew, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     SizedBox(width: 10),
                     Container(
@@ -156,6 +194,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         style: TextStyle(color: AppColors.imperialRed, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () async {
+                        _notifications.cancelAllNotifications();
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.setBool('showNotifications', null);
                         await _auth.signOut();
                       },
                     ),

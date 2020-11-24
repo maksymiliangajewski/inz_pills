@@ -14,15 +14,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeScreen extends StatefulWidget {
   final String uid;
   final bool showNotifications;
+  final LocalNotifications notifs;
 
-  const HomeScreen({Key key, this.uid, this.showNotifications}) : super(key: key);
+  const HomeScreen({Key key, this.uid, this.showNotifications, this.notifs}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final LocalNotifications _notifications = LocalNotifications();
+  LocalNotifications _notifications;
   bool showNotifications;
 
   double xOffset = 0;
@@ -33,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _notifications = widget.notifs;
     _notifications.initializeSettings(context);
     print('notifications settings initialized');
     _notifications.cancelAllNotifications();

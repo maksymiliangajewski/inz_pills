@@ -5,10 +5,13 @@ import 'Models/MyUser.dart';
 import 'Pages/DrawerScreen.dart';
 import 'Pages/HomeScreen.dart';
 import 'Utils/Loading.dart';
+import 'Utils/LocalNotifications.dart';
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final LocalNotifications _notifications = LocalNotifications();
+
     Future<bool> _getShowingNotificationsInfo() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool result = prefs.getBool('showNotifications');
@@ -29,10 +32,11 @@ class Home extends StatelessWidget {
           return Scaffold(
             body: Stack(
               children: [
-                DrawerScreen(),
+                DrawerScreen(notifs: _notifications),
                 HomeScreen(
                   uid: user.uid,
                   showNotifications: showNotifications,
+                  notifs: _notifications,
                 )
               ],
             ),
