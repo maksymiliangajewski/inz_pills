@@ -3,18 +3,22 @@ import 'package:inz_pills/Models/Appointment.dart';
 import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Models/Medicine.dart';
 import 'package:inz_pills/Models/MyUser.dart';
+import 'package:inz_pills/Models/Reminder.dart';
 
 class DatabaseService {
   // current user uid
   final String uid;
+  final String reminderId;
 
-  DatabaseService({this.uid});
+  DatabaseService({this.reminderId, this.uid});
 
   //  collection reference
   final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
   final CollectionReference dosagesCollection = FirebaseFirestore.instance.collection('dosages');
   final CollectionReference appointmentsCollection =
       FirebaseFirestore.instance.collection('appointments');
+  final CollectionReference remindersCollection =
+      FirebaseFirestore.instance.collection('reminders');
 
   Future updateUserData(String name, String surname, int age, String sex) async {
     return await usersCollection.doc(uid).set({
@@ -25,6 +29,33 @@ class DatabaseService {
     });
   }
 
+  Future updateUserReminder(
+      String reminderId, String userId, String title, String content, Timestamp date) async {
+    return await remindersCollection.doc(reminderId).set({
+      'reminderId': reminderId,
+      'userId': userId,
+      'title': title,
+      'content': content,
+      'date': date,
+    });
+  }
+
+  Future deleteUserReminder(String reminderId) async {
+    return await remindersCollection.doc(reminderId).delete();
+  }
+
+  Future createUserReminder(String userId, String title, String content, Timestamp date) async {
+    var document = FirebaseFirestore.instance.collection('reminders').doc();
+    var documentId = document.id;
+    return await remindersCollection.doc(documentId).set({
+      'reminderId': documentId,
+      'userId': userId,
+      'title': title,
+      'content': content,
+      'date': date,
+    });
+  }
+
   MyUser _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return MyUser(
         uid: uid,
@@ -32,6 +63,15 @@ class DatabaseService {
         surname: snapshot.data()['surname'],
         age: snapshot.data()['age'],
         sex: snapshot.data()['sex']);
+  }
+
+  Reminder _reminderFromSnapshot(DocumentSnapshot snapshot) {
+    return Reminder(
+        reminderId: snapshot.data()['reminderId'],
+        userId: snapshot.data()['userId'],
+        title: snapshot.data()['title'],
+        content: snapshot.data()['content'],
+        date: snapshot.data()['date']);
   }
 
   List<Dosage> _dosageListFromSnapshot(QuerySnapshot snapshot) {
@@ -63,6 +103,18 @@ class DatabaseService {
         doctorName: document.data()['doctorName'] ?? '',
         doctorSpecialisation: document.data()['doctorSpecialisation'] ?? '',
         location: document.data()['location'] ?? '',
+      );
+    }).toList();
+  }
+
+  List<Reminder> _reminderListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((document) {
+      return Reminder(
+        reminderId: document.data()['reminderId'] ?? '',
+        userId: document.data()['userId'] ?? '',
+        title: document.data()['title'] ?? '',
+        content: document.data()['content'] ?? '',
+        date: document.data()['date'] ?? '',
       );
     }).toList();
   }
@@ -122,12 +174,25 @@ class DatabaseService {
     return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
   }
 
+  // get reminder doc stream
+  Stream<Reminder> get reminderData {
+    return remindersCollection.doc(reminderId).snapshots().map(_reminderFromSnapshot);
+  }
+
   // get specific user dosages stream
   Stream<List<Dosage>> get userDosages {
     final Query specificUserDosagesCollection =
         FirebaseFirestore.instance.collection('dosages').where('userId', isEqualTo: uid);
 
     return specificUserDosagesCollection.snapshots().map(_dosageListFromSnapshot);
+  }
+
+  // get specific user reminders stream
+  Stream<List<Reminder>> get userReminders {
+    final Query specificUserDosagesCollection =
+        FirebaseFirestore.instance.collection('reminders').where('userId', isEqualTo: uid);
+
+    return specificUserDosagesCollection.snapshots().map(_reminderListFromSnapshot);
   }
 
   // get medicines from user dosages

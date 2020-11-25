@@ -129,78 +129,73 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         width: 40,
                       ),
+                      IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () async {
+                            final List<PendingNotificationRequest> pendingNotificationRequests =
+                                await _notifications.flutterLocalNotificationsPlugin
+                                    .pendingNotificationRequests();
+                            print(pendingNotificationRequests.length);
+                            pendingNotificationRequests.forEach((element) {
+                              print(element.id.toString() +
+                                  ' ' +
+                                  element.title.toString() +
+                                  ' ' +
+                                  element.body.toString() +
+                                  ' ' +
+                                  element.payload);
+                            });
+                            Fluttertoast.showToast(
+                              msg:
+                                  "${pendingNotificationRequests.length} Notifications loaded from database",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.BOTTOM,
+                            );
+                          })
                     ],
                   ),
                 ),
-                InkWell(
-                  onTap: () async {
-                    final List<PendingNotificationRequest> pendingNotificationRequests =
-                        await _notifications.flutterLocalNotificationsPlugin
-                            .pendingNotificationRequests();
-                    print(pendingNotificationRequests.length);
-                    pendingNotificationRequests.forEach((element) {
-                      print(element.id.toString() +
-                          ' ' +
-                          element.title.toString() +
-                          ' ' +
-                          element.body.toString() +
-                          ' ' +
-                          element.payload);
-                    });
-                    Fluttertoast.showToast(
-                      msg:
-                          "${pendingNotificationRequests.length} Notifications loaded from database",
-                      toastLength: Toast.LENGTH_LONG,
-                      gravity: ToastGravity.BOTTOM,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.add),
-                            Text('New reminder'),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Notifications'),
-                            Switch(
-                                value: showNotifications,
-                                onChanged: (value) async {
-                                  if (value) {
-                                    _notifications.cancelAllNotifications();
-                                    _notifications.loadNotifications(widget.uid);
-                                    Fluttertoast.showToast(
-                                      msg: 'Notifications has just been reloaded!',
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                    );
-                                  } else {
-                                    _notifications.cancelAllNotifications();
-                                    Fluttertoast.showToast(
-                                      msg: 'All your notifications are now muted.',
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                    );
-                                  }
-                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                                  prefs.setBool('showNotifications', !showNotifications);
-                                  setState(() {
-                                    showNotifications = value;
-                                  });
-                                }),
-                          ],
-                        )
-                      ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    HomePageButton('Reminders', 'reminders.png'),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20), color: Colors.white),
+                      child: Row(
+                        children: [
+                          Text('Notifications'),
+                          Switch(
+                              value: showNotifications,
+                              onChanged: (value) async {
+                                if (value) {
+                                  _notifications.cancelAllNotifications();
+                                  _notifications.loadNotifications(widget.uid);
+                                  Fluttertoast.showToast(
+                                    msg: 'Notifications has just been reloaded!',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                  );
+                                } else {
+                                  _notifications.cancelAllNotifications();
+                                  Fluttertoast.showToast(
+                                    msg: 'All your notifications are now muted.',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                  );
+                                }
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setBool('showNotifications', !showNotifications);
+                                setState(() {
+                                  showNotifications = value;
+                                });
+                              }),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 Container(
                   height: 120,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:inz_pills/Pages/AppointmentsListScreen.dart';
 import 'package:inz_pills/Pages/DosagesListScreen.dart';
 import 'package:inz_pills/Pages/MedicinesListScreen.dart';
+import 'package:inz_pills/Pages/RemindersListScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 
 class HomePageButton extends StatelessWidget {
@@ -55,6 +56,8 @@ class HomePageButton extends StatelessWidget {
             return DosagesListScreen();
           case 'Appointments':
             return AppointmentsListScreen();
+          case 'Reminders':
+            return RemindersListScreen();
           default:
             return null;
         }
