@@ -13,22 +13,16 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerScreen extends StatefulWidget {
-  final LocalNotifications notifs;
-
-  const DrawerScreen({Key key, this.notifs}) : super(key: key);
-
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
   final AuthService _auth = AuthService();
-  LocalNotifications _notifications;
 
   @override
   void initState() {
     super.initState();
-    _notifications = widget.notifs;
   }
 
   @override
@@ -157,7 +151,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     RaisedButton(
                       onPressed: () async {
                         final List<PendingNotificationRequest> pendingNotificationRequests =
-                            await _notifications.flutterLocalNotificationsPlugin
+                            await LocalNotifications.flutterLocalNotificationsPlugin
                                 .pendingNotificationRequests();
                         print(pendingNotificationRequests.length);
                         pendingNotificationRequests.forEach((element) {
@@ -194,7 +188,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         style: TextStyle(color: AppColors.imperialRed, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () async {
-                        _notifications.cancelAllNotifications();
+                        LocalNotifications.cancelAllNotifications();
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         prefs.setBool('showNotifications', null);
                         await _auth.signOut();

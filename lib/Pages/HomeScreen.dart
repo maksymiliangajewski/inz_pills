@@ -14,16 +14,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeScreen extends StatefulWidget {
   final String uid;
   final bool showNotifications;
-  final LocalNotifications notifs;
 
-  const HomeScreen({Key key, this.uid, this.showNotifications, this.notifs}) : super(key: key);
+  const HomeScreen({Key key, this.uid, this.showNotifications}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  LocalNotifications _notifications;
   bool showNotifications;
 
   double xOffset = 0;
@@ -34,13 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _notifications = widget.notifs;
-    _notifications.initializeSettings(context);
+    LocalNotifications.initializeSettings(context);
     print('notifications settings initialized');
-    _notifications.cancelAllNotifications();
+    LocalNotifications.cancelAllNotifications();
     showNotifications = widget.showNotifications;
     if (widget.showNotifications) {
-      _notifications.loadNotifications(widget.uid);
+      LocalNotifications.loadNotifications(widget.uid);
       print('notifications loaded');
       Fluttertoast.showToast(
         msg: "Notification loaded on start!",
@@ -133,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icon(Icons.add),
                           onPressed: () async {
                             final List<PendingNotificationRequest> pendingNotificationRequests =
-                                await _notifications.flutterLocalNotificationsPlugin
+                                await LocalNotifications.flutterLocalNotificationsPlugin
                                     .pendingNotificationRequests();
                             print(pendingNotificationRequests.length);
                             pendingNotificationRequests.forEach((element) {
@@ -171,15 +168,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               value: showNotifications,
                               onChanged: (value) async {
                                 if (value) {
-                                  _notifications.cancelAllNotifications();
-                                  _notifications.loadNotifications(widget.uid);
+                                  LocalNotifications.cancelAllNotifications();
+                                  LocalNotifications.loadNotifications(widget.uid);
                                   Fluttertoast.showToast(
                                     msg: 'Notifications has just been reloaded!',
                                     toastLength: Toast.LENGTH_LONG,
                                     gravity: ToastGravity.BOTTOM,
                                   );
                                 } else {
-                                  _notifications.cancelAllNotifications();
+                                  LocalNotifications.cancelAllNotifications();
                                   Fluttertoast.showToast(
                                     msg: 'All your notifications are now muted.',
                                     toastLength: Toast.LENGTH_LONG,

@@ -9,10 +9,10 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotifications {
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-  BuildContext context;
+  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  static BuildContext context;
 
-  void initializeSettings(BuildContext ctx) {
+  static void initializeSettings(BuildContext ctx) {
     context = ctx;
     tz.initializeTimeZones();
     var androidInitialize = new AndroidInitializationSettings('notification_icon');
@@ -38,7 +38,7 @@ class LocalNotifications {
     });
   }
 
-  Future showNotificationFromList(
+  static Future showNotificationFromList(
       int hashcode, String title, String body, DateTime takeTime) async {
     final scheduledDate = tz.TZDateTime.from(takeTime, tz.local);
     print(title);
@@ -67,7 +67,7 @@ class LocalNotifications {
     }
   }
 
-  void loadNotifications(String uid) {
+  static void loadNotifications(String uid) {
     print('loading notifications');
     DatabaseService(uid: uid).getUserDosagesList().then((value) {
       List<Dosage> dosagesList = [];
@@ -112,7 +112,7 @@ class LocalNotifications {
     });
   }
 
-  Future cancelAllNotifications() async {
+  static Future cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
 }
