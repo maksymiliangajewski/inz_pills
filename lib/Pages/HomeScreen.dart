@@ -155,41 +155,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    HomePageButton('Reminders', 'reminders.png'),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                      margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20), color: Colors.white),
-                      child: Row(
-                        children: [
-                          Text('Notifications'),
-                          Switch(
-                              value: showNotifications,
-                              onChanged: (value) async {
-                                if (value) {
-                                  LocalNotifications.cancelAllNotifications();
-                                  LocalNotifications.loadNotifications(widget.uid);
-                                  Fluttertoast.showToast(
-                                    msg: 'Notifications has just been reloaded!',
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.BOTTOM,
-                                  );
-                                } else {
-                                  LocalNotifications.cancelAllNotifications();
-                                  Fluttertoast.showToast(
-                                    msg: 'All your notifications are now muted.',
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.BOTTOM,
-                                  );
-                                }
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                prefs.setBool('showNotifications', !showNotifications);
-                                setState(() {
-                                  showNotifications = value;
-                                });
-                              }),
-                        ],
+                    Expanded(flex: 1, child: HomePageButton('Reminders', 'reminders.png')),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20), color: Colors.white),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text('Notifications'),
+                            Switch(
+                                value: showNotifications,
+                                onChanged: (value) async {
+                                  if (value) {
+                                    LocalNotifications.cancelAllNotifications();
+                                    LocalNotifications.loadNotifications(widget.uid);
+                                    Fluttertoast.showToast(
+                                      msg: 'Notifications has just been reloaded!',
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                    );
+                                  } else {
+                                    LocalNotifications.cancelAllNotifications();
+                                    Fluttertoast.showToast(
+                                      msg: 'All your notifications are now muted.',
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                    );
+                                  }
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  prefs.setBool('showNotifications', !showNotifications);
+                                  setState(() {
+                                    showNotifications = value;
+                                  });
+                                }),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -199,9 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      HomePageButton('Medication', 'drugs.png'),
-                      HomePageButton('Dosages', 'dosages.png'),
-                      HomePageButton('Appointments', 'appointments.png'),
+                      Expanded(flex: 1, child: HomePageButton('Medication', 'drugs.png')),
+                      Expanded(flex: 1, child: HomePageButton('Dosages', 'dosages.png')),
+                      Expanded(flex: 1, child: HomePageButton('Appointments', 'appointments.png')),
                     ],
                   ),
                 ),

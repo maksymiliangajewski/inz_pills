@@ -21,7 +21,7 @@ class HomePageButton extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(10),
-            margin: EdgeInsets.only(left: 30, right: 30, bottom: 5),
+            margin: EdgeInsets.only(left: 30, right: 30, top: 10),
             decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: shadowList,
