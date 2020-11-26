@@ -169,6 +169,26 @@ class DatabaseService {
     return appointmentsList;
   }
 
+  Future<List<Reminder>> getUserRemindersList() async {
+    List<Reminder> remindersList = [];
+    await FirebaseFirestore.instance
+        .collection('reminders')
+        .where('userId', isEqualTo: uid)
+        .get()
+        .then((value) {
+      value.docs.forEach((document) {
+        remindersList.add(new Reminder(
+            reminderId: document.data()['reminderId'] ?? '',
+            userId: document.data()['userId'] ?? '',
+            title: document.data()['title'] ?? '',
+            content: document.data()['content'] ?? '',
+            date: document.data()['date'] ?? ''));
+      });
+    });
+
+    return remindersList;
+  }
+
   // get user doc stream
   Stream<MyUser> get userData {
     return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);

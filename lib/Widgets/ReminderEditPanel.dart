@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Models/Reminder.dart';
-import 'package:inz_pills/Pages/RemindersListScreen.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/Loading.dart';
+import 'package:inz_pills/Utils/LocalNotifications.dart';
 import 'package:provider/provider.dart';
 
 class ReminderEditPanel extends StatefulWidget {
@@ -101,6 +101,8 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                                 _currentContent,
                                 Timestamp.fromDate(DateTime(_currentDate.year, _currentDate.month,
                                     _currentDate.day, _currentTime.hour, _currentTime.minute)));
+                            LocalNotifications.cancelAllNotifications();
+                            LocalNotifications.loadNotifications(user.uid);
                             Navigator.pop(context);
                           }
                         },
@@ -187,10 +189,10 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                                                   _currentTime.hour,
                                                   _currentTime.minute)) ??
                                               reminderData.date);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RemindersListScreen()));
+                                  LocalNotifications.cancelAllNotifications();
+                                  LocalNotifications.loadNotifications(reminderData.userId);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
                                 }
                               },
                             ),

@@ -45,8 +45,6 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
                         onPressed: () async {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => ReminderEditPanel(null)));
-                          // DatabaseService(uid: user.uid).createUserReminder(
-                          //     user.uid, 'Created reminder', 'Created content', Timestamp.now());
                         })
                   ],
                 ),

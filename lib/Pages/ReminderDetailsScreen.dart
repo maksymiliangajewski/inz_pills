@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inz_pills/Models/Reminder.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/LocalNotifications.dart';
 import 'package:inz_pills/Widgets/ReminderEditPanel.dart';
 
 class ReminderDetailsScreen extends StatefulWidget {
@@ -71,6 +72,9 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                           onPressed: () {
                                             DatabaseService()
                                                 .deleteUserReminder(widget.reminder.reminderId);
+                                            LocalNotifications.cancelAllNotifications();
+                                            LocalNotifications.loadNotifications(
+                                                widget.reminder.userId);
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                           },

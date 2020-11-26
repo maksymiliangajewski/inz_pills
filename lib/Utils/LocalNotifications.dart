@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:inz_pills/Models/Appointment.dart';
 import 'package:inz_pills/Models/Dosage.dart';
+import 'package:inz_pills/Models/Reminder.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -85,7 +86,7 @@ class LocalNotifications {
             DateTime.fromMillisecondsSinceEpoch(element.takeTime.seconds * 1000).toLocal());
       });
     });
-    print('loading reminders');
+    print('loading appointments reminders');
     DatabaseService(uid: uid).getUserAppointmentsList().then((value) {
       List<Appointment> appointmentsList = [];
       value.forEach((element) {
@@ -108,6 +109,23 @@ class LocalNotifications {
             DateTime.fromMillisecondsSinceEpoch(element.date.seconds * 1000)
                 .toLocal()
                 .subtract(Duration(hours: 2)));
+      });
+    });
+    print('loading reminders');
+    DatabaseService(uid: uid).getUserRemindersList().then((value) {
+      List<Reminder> remindersList = [];
+      value.forEach((element) {
+        Reminder reminder = new Reminder(
+            reminderId: element.reminderId,
+            userId: element.userId,
+            title: element.title,
+            content: element.content,
+            date: element.date);
+        remindersList.add(reminder);
+      });
+      remindersList.forEach((element) async {
+        await showNotificationFromList(element.hashCode, element.title, element.content,
+            DateTime.fromMillisecondsSinceEpoch(element.date.seconds * 1000).toLocal());
       });
     });
   }
