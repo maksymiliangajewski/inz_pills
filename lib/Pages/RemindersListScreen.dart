@@ -4,6 +4,7 @@ import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Models/Reminder.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:inz_pills/Widgets/ReminderEditPanel.dart';
 import 'package:inz_pills/Widgets/RemindersList.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
                           Navigator.pop(context);
                         }),
                     Text(
-                      'List of your reminders',
+                      StringAssets.yourReminders,
                       style: TextStyle(fontSize: 20),
                     ),
                     IconButton(

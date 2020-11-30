@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/Loading.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:inz_pills/Widgets/HomeScreenDosagesListTileWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:inz_pills/Models/Dosage.dart';
@@ -33,7 +34,8 @@ class _HomeScreenDosagesListState extends State<HomeScreenDosagesList> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  'You have no upcoming dosages.',
+                  StringAssets.noUpcomingDosages,
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, color: AppColors.prussianBlue),
                 ),
               ),

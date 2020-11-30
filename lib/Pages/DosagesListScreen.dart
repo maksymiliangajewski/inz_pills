@@ -3,6 +3,7 @@ import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:inz_pills/Widgets/DosagesList.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,7 @@ class _DosagesListScreenState extends State<DosagesListScreen> {
                           Navigator.pop(context);
                         }),
                     Text(
-                      'List of your dosages',
+                      StringAssets.yourDosages,
                       style: TextStyle(fontSize: 20),
                     ),
                     SizedBox(

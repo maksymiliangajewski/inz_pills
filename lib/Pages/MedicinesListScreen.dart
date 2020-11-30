@@ -4,6 +4,7 @@ import 'package:inz_pills/Models/Medicine.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:inz_pills/Widgets/MedicinesList.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,7 @@ class _MedicinesListScreenState extends State<MedicinesListScreen> {
                           Navigator.pop(context);
                         }),
                     Text(
-                      'List of your medicines',
+                      StringAssets.yourMedicines,
                       style: TextStyle(fontSize: 20),
                     ),
                     SizedBox(

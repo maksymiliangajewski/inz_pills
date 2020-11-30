@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:inz_pills/Models/Appointment.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppointmentDetailsScreen extends StatefulWidget {
@@ -73,7 +74,7 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                                       margin: EdgeInsets.only(bottom: size.height * 0.07),
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 10),
-                                        child: Text('Visit details',
+                                        child: Text(StringAssets.visitDetails,
                                             style:
                                                 TextStyle(color: AppColors.honeydew, fontSize: 38)),
                                       ),
@@ -87,7 +88,7 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Lekarz prowadzący:',
+                                        StringAssets.mainDoctor,
                                         style: TextStyle(fontSize: 14, color: Colors.black54),
                                       ),
                                       Text(
@@ -96,7 +97,7 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                                       ),
                                       SizedBox(height: 30),
                                       Text(
-                                        'Specjalizacja:',
+                                        StringAssets.specialization,
                                         style: TextStyle(fontSize: 14, color: Colors.black54),
                                       ),
                                       Text(
@@ -105,7 +106,7 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                                       ),
                                       SizedBox(height: 30),
                                       Text(
-                                        'Godzina i data wizyty:',
+                                        StringAssets.hourAndDateOfAppointment,
                                         style: TextStyle(fontSize: 14, color: Colors.black54),
                                       ),
                                       Text(
@@ -114,7 +115,7 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                                       ),
                                       SizedBox(height: 30),
                                       Text(
-                                        'Lokalizacja:',
+                                        StringAssets.localization,
                                         style: TextStyle(fontSize: 14, color: Colors.black54),
                                       ),
                                       Text(
@@ -130,11 +131,11 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                                           if (await canLaunch(googleUrl)) {
                                             await launch(googleUrl);
                                           } else {
-                                            throw 'Could not open the map.';
+                                            throw StringAssets.couldNotOpenMap;
                                           }
                                         },
                                         child: Text(
-                                          'Open location in Google Maps',
+                                          StringAssets.openLocationInGoogleMaps,
                                           style: TextStyle(color: AppColors.honeydew),
                                         ),
                                       )

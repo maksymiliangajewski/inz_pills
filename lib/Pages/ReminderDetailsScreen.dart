@@ -3,6 +3,7 @@ import 'package:inz_pills/Models/Reminder.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/LocalNotifications.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:inz_pills/Widgets/ReminderEditPanel.dart';
 
 class ReminderDetailsScreen extends StatefulWidget {
@@ -62,12 +63,11 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: Text('Removing reminder'),
-                                      content:
-                                          Text('Are you sure you want to delete this reminder?'),
+                                      title: Text(StringAssets.removingReminder),
+                                      content: Text(StringAssets.areYouSureToDelete),
                                       actions: [
                                         FlatButton(
-                                          child: Text('Yes',
+                                          child: Text(StringAssets.yes,
                                               style: TextStyle(color: AppColors.imperialRed)),
                                           onPressed: () {
                                             DatabaseService()
@@ -80,7 +80,7 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                           },
                                         ),
                                         FlatButton(
-                                          child: Text('No',
+                                          child: Text(StringAssets.no,
                                               style: TextStyle(color: AppColors.prussianBlue)),
                                           onPressed: () => Navigator.pop(context),
                                         ),
@@ -124,9 +124,9 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                       margin: EdgeInsets.only(bottom: size.height * 0.07),
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 10),
-                                        child: Text('Reminder details',
+                                        child: Text(StringAssets.reminderDetails,
                                             style:
-                                                TextStyle(color: AppColors.honeydew, fontSize: 38)),
+                                                TextStyle(color: AppColors.honeydew, fontSize: 30)),
                                       ),
                                     ),
                                   ],
@@ -138,7 +138,7 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Tytuł:',
+                                        StringAssets.title,
                                         style: TextStyle(fontSize: 14, color: Colors.black54),
                                       ),
                                       Text(
@@ -147,7 +147,7 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                       ),
                                       SizedBox(height: 30),
                                       Text(
-                                        'Przypomnienie:',
+                                        StringAssets.content,
                                         style: TextStyle(fontSize: 14, color: Colors.black54),
                                       ),
                                       Text(
@@ -156,22 +156,13 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                       ),
                                       SizedBox(height: 30),
                                       Text(
-                                        'Kiedy:',
+                                        StringAssets.when,
                                         style: TextStyle(fontSize: 14, color: Colors.black54),
                                       ),
                                       Text(
                                         widget.reminder.getDateTimeString(),
                                         style: TextStyle(fontSize: 20),
-                                      ),
-                                      SizedBox(height: 30),
-                                      Text(
-                                        'ReminderId:',
-                                        style: TextStyle(fontSize: 14, color: Colors.black54),
-                                      ),
-                                      Text(
-                                        widget.reminder.reminderId,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ))

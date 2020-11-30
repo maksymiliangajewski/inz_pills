@@ -3,6 +3,7 @@ import 'package:inz_pills/Models/Appointment.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:inz_pills/Widgets/AppointmentsList.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,7 @@ class _AppointmentsListScreenState extends State<AppointmentsListScreen> {
                           Navigator.pop(context);
                         }),
                     Text(
-                      'List of your appointments',
+                      StringAssets.yourAppointments,
                       style: TextStyle(fontSize: 20),
                     ),
                     SizedBox(
@@ -48,7 +49,7 @@ class _AppointmentsListScreenState extends State<AppointmentsListScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Appointments notifications will be shown 2 hours before the visit.',
+                  StringAssets.appointmentsNotificationsInfo,
                   textAlign: TextAlign.center,
                 ),
               ),

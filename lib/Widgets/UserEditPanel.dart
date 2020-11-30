@@ -4,6 +4,7 @@ import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/Loading.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:provider/provider.dart';
 
 class UserEditPanel extends StatefulWidget {
@@ -35,26 +36,26 @@ class _UserEditPanelState extends State<UserEditPanel> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        Text('Update your user data.'),
+                        Text(StringAssets.updateUserData),
                         SizedBox(height: 20),
                         TextFormField(
                           initialValue: userData.name,
-                          decoration: textInputDecoration('Name'),
-                          validator: (val) => val.isEmpty ? 'Please enter a name' : null,
+                          decoration: textInputDecoration(StringAssets.name),
+                          validator: (val) => val.isEmpty ? StringAssets.pleaseEnterName : null,
                           onChanged: (val) => setState(() => _currentName = val),
                         ),
                         SizedBox(height: 20),
                         TextFormField(
                           initialValue: userData.surname,
-                          decoration: textInputDecoration('Surname'),
-                          validator: (val) => val.isEmpty ? 'Please enter a surname' : null,
+                          decoration: textInputDecoration(StringAssets.surname),
+                          validator: (val) => val.isEmpty ? StringAssets.pleaseEnterSurname : null,
                           onChanged: (val) => setState(() => _currentSurname = val),
                         ),
                         SizedBox(height: 20),
                         TextFormField(
                           initialValue: userData.age.toString(),
-                          decoration: textInputDecoration('Age'),
-                          validator: (val) => val.isEmpty ? 'Please enter a surname' : null,
+                          decoration: textInputDecoration(StringAssets.age),
+                          validator: (val) => val.isEmpty ? StringAssets.pleaseEnterAge : null,
                           onChanged: (val) => setState(() => _currentAge = int.parse(val)),
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
@@ -64,7 +65,7 @@ class _UserEditPanelState extends State<UserEditPanel> {
                         SizedBox(height: 20),
                         DropdownButtonFormField(
                             value: _currentSex ?? userData.sex,
-                            decoration: textInputDecoration('Sex'),
+                            decoration: textInputDecoration(StringAssets.sex),
                             items: sexes.map((String sex) {
                               return DropdownMenuItem<String>(value: sex, child: Text('$sex'));
                             }).toList(),
@@ -77,7 +78,7 @@ class _UserEditPanelState extends State<UserEditPanel> {
                             RaisedButton(
                               color: AppColors.prussianBlue,
                               child: Text(
-                                'Update',
+                                StringAssets.update,
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () async {
@@ -94,7 +95,8 @@ class _UserEditPanelState extends State<UserEditPanel> {
                             ),
                             RaisedButton(
                                 color: AppColors.imperialRed,
-                                child: Text('Cancel', style: TextStyle(color: Colors.white)),
+                                child: Text(StringAssets.cancel,
+                                    style: TextStyle(color: Colors.white)),
                                 onPressed: () => Navigator.pop(context))
                           ],
                         ),

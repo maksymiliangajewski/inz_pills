@@ -6,6 +6,7 @@ import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/Loading.dart';
 import 'package:inz_pills/Utils/LocalNotifications.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:provider/provider.dart';
 
 class ReminderEditPanel extends StatefulWidget {
@@ -54,11 +55,11 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
               key: _formKey,
               child: Column(
                 children: [
-                  Text('Create new reminder'),
+                  Text(StringAssets.createReminder),
                   SizedBox(height: 20),
                   TextFormField(
-                    decoration: textInputDecoration('Title'),
-                    validator: (val) => val.isEmpty ? 'Please enter a title' : null,
+                    decoration: textInputDecoration(StringAssets.title),
+                    validator: (val) => val.isEmpty ? StringAssets.pleaseEnterValidTitle : null,
                     onChanged: (val) => setState(() => _currentTitle = val),
                   ),
                   SizedBox(height: 20),
@@ -66,20 +67,20 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                     autofocus: false,
                     keyboardType: TextInputType.text,
                     maxLines: 6,
-                    decoration: textInputDecoration('Content'),
-                    validator: (val) => val.isEmpty ? 'Please enter some content' : null,
+                    decoration: textInputDecoration(StringAssets.content),
+                    validator: (val) => val.isEmpty ? StringAssets.pleaseEnterValidContent : null,
                     onChanged: (val) => setState(() => _currentContent = val),
                   ),
                   SizedBox(height: 20),
                   ListTile(
-                    title: Text(
-                        'Date: ${_currentDate.day}.${_currentDate.month}.${_currentDate.year}'),
+                    title: Text(StringAssets.date +
+                        '${_currentDate.day}.${_currentDate.month}.${_currentDate.year}'),
                     trailing: Icon(Icons.keyboard_arrow_down),
                     onTap: _pickDate,
                   ),
                   SizedBox(height: 20),
                   ListTile(
-                    title: Text("Time: ${_currentTime.hour}:${_currentTime.minute}"),
+                    title: Text(StringAssets.time + '${_currentTime.hour}:${_currentTime.minute}'),
                     trailing: Icon(Icons.keyboard_arrow_down),
                     onTap: _pickTime,
                   ),
@@ -90,7 +91,7 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                       RaisedButton(
                         color: AppColors.prussianBlue,
                         child: Text(
-                          'Create',
+                          StringAssets.create,
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
@@ -109,7 +110,7 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                       ),
                       RaisedButton(
                           color: AppColors.imperialRed,
-                          child: Text('Cancel', style: TextStyle(color: Colors.white)),
+                          child: Text(StringAssets.cancel, style: TextStyle(color: Colors.white)),
                           onPressed: () => Navigator.pop(context))
                     ],
                   ),
@@ -133,12 +134,13 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        Text('Update your reminder'),
+                        Text(StringAssets.updateReminder),
                         SizedBox(height: 20),
                         TextFormField(
                           initialValue: reminderData.title,
-                          decoration: textInputDecoration('Title'),
-                          validator: (val) => val.isEmpty ? 'Please enter a title' : null,
+                          decoration: textInputDecoration(StringAssets.title),
+                          validator: (val) =>
+                              val.isEmpty ? StringAssets.pleaseEnterValidTitle : null,
                           onChanged: (val) => setState(() => _currentTitle = val),
                         ),
                         SizedBox(height: 20),
@@ -147,20 +149,22 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                           keyboardType: TextInputType.text,
                           maxLines: 6,
                           initialValue: reminderData.content,
-                          decoration: textInputDecoration('Content'),
-                          validator: (val) => val.isEmpty ? 'Please enter some content' : null,
+                          decoration: textInputDecoration(StringAssets.content),
+                          validator: (val) =>
+                              val.isEmpty ? StringAssets.pleaseEnterValidContent : null,
                           onChanged: (val) => setState(() => _currentContent = val),
                         ),
                         SizedBox(height: 20),
                         ListTile(
-                          title: Text(
-                              'Date: ${_currentDate.day}.${_currentDate.month}.${_currentDate.year}'),
+                          title: Text(StringAssets.date +
+                              '${_currentDate.day}.${_currentDate.month}.${_currentDate.year}'),
                           trailing: Icon(Icons.keyboard_arrow_down),
                           onTap: _pickDate,
                         ),
                         SizedBox(height: 20),
                         ListTile(
-                          title: Text("Time: ${_currentTime.hour}:${_currentTime.minute}"),
+                          title: Text(
+                              StringAssets.time + '${_currentTime.hour}:${_currentTime.minute}'),
                           trailing: Icon(Icons.keyboard_arrow_down),
                           onTap: _pickTime,
                         ),
@@ -171,7 +175,7 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                             RaisedButton(
                               color: AppColors.prussianBlue,
                               child: Text(
-                                'Update',
+                                StringAssets.update,
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () async {
@@ -198,7 +202,8 @@ class _ReminderEditPanelState extends State<ReminderEditPanel> {
                             ),
                             RaisedButton(
                                 color: AppColors.imperialRed,
-                                child: Text('Cancel', style: TextStyle(color: Colors.white)),
+                                child: Text(StringAssets.cancel,
+                                    style: TextStyle(color: Colors.white)),
                                 onPressed: () => Navigator.pop(context)),
                           ],
                         ),

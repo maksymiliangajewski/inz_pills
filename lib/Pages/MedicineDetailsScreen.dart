@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/Loading.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:inz_pills/Utils/MedicineWebScraper.dart' as scraper;
 
@@ -100,7 +101,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Details for:',
+                                      StringAssets.detailsForMedicine,
                                       style: TextStyle(color: AppColors.honeydew, fontSize: 16),
                                     ),
                                     Container(

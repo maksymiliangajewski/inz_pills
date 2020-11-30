@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inz_pills/Models/Dosage.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/LocalNotifications.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:inz_pills/Widgets/HomeScreenDosagesList.dart';
 import 'package:inz_pills/widgets/HomePageButton.dart';
 import 'package:provider/provider.dart';
@@ -120,42 +120,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                               }),
                       Text(
-                        'Inzynierka App',
+                        StringAssets.appTitle,
                         style: TextStyle(fontSize: 20),
                       ),
                       SizedBox(
                         width: 40,
                       ),
-                      IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () async {
-                            final List<PendingNotificationRequest> pendingNotificationRequests =
-                                await LocalNotifications.flutterLocalNotificationsPlugin
-                                    .pendingNotificationRequests();
-                            print(pendingNotificationRequests.length);
-                            pendingNotificationRequests.forEach((element) {
-                              print(element.id.toString() +
-                                  ' ' +
-                                  element.title.toString() +
-                                  ' ' +
-                                  element.body.toString() +
-                                  ' ' +
-                                  element.payload);
-                            });
-                            Fluttertoast.showToast(
-                              msg:
-                                  "${pendingNotificationRequests.length} Notifications loaded from database",
-                              toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.BOTTOM,
-                            );
-                          })
                     ],
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(flex: 1, child: HomePageButton('Reminders', 'reminders.png')),
+                    Expanded(
+                        flex: 1, child: HomePageButton(StringAssets.reminders, 'reminders.png')),
                     Expanded(
                       flex: 2,
                       child: Container(
@@ -166,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text('Notifications'),
+                            Text(StringAssets.notifications),
                             Switch(
                                 value: showNotifications,
                                 onChanged: (value) async {
@@ -174,14 +152,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     LocalNotifications.cancelAllNotifications();
                                     LocalNotifications.loadNotifications(widget.uid);
                                     Fluttertoast.showToast(
-                                      msg: 'Notifications has just been reloaded!',
+                                      msg: StringAssets.notificationsReloaded,
                                       toastLength: Toast.LENGTH_LONG,
                                       gravity: ToastGravity.BOTTOM,
                                     );
                                   } else {
                                     LocalNotifications.cancelAllNotifications();
                                     Fluttertoast.showToast(
-                                      msg: 'All your notifications are now muted.',
+                                      msg: StringAssets.notificationsMuted,
                                       toastLength: Toast.LENGTH_LONG,
                                       gravity: ToastGravity.BOTTOM,
                                     );
@@ -203,14 +181,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(flex: 1, child: HomePageButton('Medication', 'drugs.png')),
-                      Expanded(flex: 1, child: HomePageButton('Dosages', 'dosages.png')),
-                      Expanded(flex: 1, child: HomePageButton('Appointments', 'appointments.png')),
+                      Expanded(
+                          flex: 1, child: HomePageButton(StringAssets.medication, 'drugs.png')),
+                      Expanded(flex: 1, child: HomePageButton(StringAssets.dosages, 'dosages.png')),
+                      Expanded(
+                          flex: 1,
+                          child: HomePageButton(StringAssets.appointments, 'appointments.png')),
                     ],
                   ),
                 ),
                 Text(
-                  'Your upcoming dosages',
+                  StringAssets.upcomingDosages,
                   style: TextStyle(fontSize: 20),
                 ),
                 Expanded(

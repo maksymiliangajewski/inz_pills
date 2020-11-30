@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inz_pills/Pages/MedicineDetailsScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 
 class MedicineListTileWidget extends StatefulWidget {
   final String title;
@@ -70,7 +71,7 @@ class _MedicineListTileWidgetState extends State<MedicineListTileWidget> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('Click to see details...'),
+                          Text(StringAssets.clickToSeeDetails),
                         ],
                       ),
                     )

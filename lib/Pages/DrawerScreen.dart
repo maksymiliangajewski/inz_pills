@@ -8,6 +8,7 @@ import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/Loading.dart';
 import 'package:inz_pills/Utils/LocalNotifications.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 import 'package:inz_pills/Widgets/UserEditPanel.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,7 +52,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(),
+                    CircleAvatar(
+                      child: ClipRect(
+                        child: Image.asset(
+                          'images/avatar.png',
+                          width: MediaQuery.of(context).size.width * 0.06,
+                        ),
+                      ),
+                    ),
                     SizedBox(width: 10),
                     Text(
                       '${userData.name} ${userData.surname}',
@@ -72,7 +80,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             ),
                             SizedBox(width: 10),
                             Text(
-                              'Edit user info',
+                              StringAssets.editUserInfo,
                               style: TextStyle(
                                 color: AppColors.honeydew,
                               ),
@@ -82,109 +90,55 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         onTap: () => _showUserEditPanel(),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 40),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
                         child: Row(
                           children: [
                             Icon(
-                              FontAwesomeIcons.baby,
+                              FontAwesomeIcons.info,
                               color: AppColors.honeydew,
                             ),
                             SizedBox(width: 10),
-                            Text('Menu 2',
-                                style: TextStyle(
-                                  color: AppColors.honeydew,
-                                ))
+                            Text(
+                              StringAssets.howManyNotifications,
+                              style: TextStyle(
+                                color: AppColors.honeydew,
+                              ),
+                            )
                           ],
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        child: Row(
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.facebook,
-                              color: AppColors.honeydew,
-                            ),
-                            SizedBox(width: 10),
-                            Text('Menu 3',
-                                style: TextStyle(
-                                  color: AppColors.honeydew,
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        child: Row(
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.ravelry,
-                              color: AppColors.honeydew,
-                            ),
-                            SizedBox(width: 10),
-                            Text('Menu 4',
-                                style: TextStyle(
-                                  color: AppColors.honeydew,
-                                ))
-                          ],
-                        ),
+                        onTap: () async {
+                          final List<PendingNotificationRequest> pendingNotificationRequests =
+                              await LocalNotifications.flutterLocalNotificationsPlugin
+                                  .pendingNotificationRequests();
+                          print(pendingNotificationRequests.length);
+                          pendingNotificationRequests.forEach((element) {
+                            print(element.id.toString() +
+                                ' ' +
+                                element.title.toString() +
+                                ' ' +
+                                element.body.toString() +
+                                ' ' +
+                                element.payload);
+                          });
+                          Fluttertoast.showToast(
+                            msg: '${pendingNotificationRequests.length}' +
+                                StringAssets.numberOfNotificationsLoaded,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                          );
+                        },
                       ),
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    Icon(
-                      FontAwesomeIcons.cog,
-                      color: AppColors.honeydew,
-                    ),
-                    SizedBox(width: 10),
-                    RaisedButton(
-                      onPressed: () async {
-                        final List<PendingNotificationRequest> pendingNotificationRequests =
-                            await LocalNotifications.flutterLocalNotificationsPlugin
-                                .pendingNotificationRequests();
-                        print(pendingNotificationRequests.length);
-                        pendingNotificationRequests.forEach((element) {
-                          print(element.id.toString() +
-                              ' ' +
-                              element.title.toString() +
-                              ' ' +
-                              element.body.toString() +
-                              ' ' +
-                              element.payload);
-                        });
-                        Fluttertoast.showToast(
-                          msg:
-                              "${pendingNotificationRequests.length} Notifications loaded from database",
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.BOTTOM,
-                        );
-                      },
-                      child: Text(
-                        'Settings',
-                        style: TextStyle(color: AppColors.honeydew, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Container(
-                      width: 1,
-                      height: 20,
-                      color: AppColors.honeydew,
-                    ),
-                    SizedBox(width: 10),
                     RaisedButton(
                       child: Text(
-                        'Log out',
+                        StringAssets.logOut,
                         style: TextStyle(color: AppColors.imperialRed, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () async {

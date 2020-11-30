@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inz_pills/Models/Reminder.dart';
 import 'package:inz_pills/Pages/ReminderDetailsScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 
 class RemindersListTileWidget extends StatefulWidget {
   final Reminder reminder;
@@ -70,7 +71,7 @@ class _RemindersListTileWidgetState extends State<RemindersListTileWidget> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('Click to see details...'),
+                          Text(StringAssets.clickToSeeDetails),
                         ],
                       ),
                     )

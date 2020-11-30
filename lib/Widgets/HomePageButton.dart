@@ -5,6 +5,7 @@ import 'package:inz_pills/Pages/DosagesListScreen.dart';
 import 'package:inz_pills/Pages/MedicinesListScreen.dart';
 import 'package:inz_pills/Pages/RemindersListScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 
 class HomePageButton extends StatelessWidget {
   final String title;
@@ -50,13 +51,13 @@ class HomePageButton extends StatelessWidget {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
         switch (title) {
-          case 'Medication':
+          case StringAssets.medication:
             return MedicinesListScreen();
-          case 'Dosages':
+          case StringAssets.dosages:
             return DosagesListScreen();
-          case 'Appointments':
+          case StringAssets.appointments:
             return AppointmentsListScreen();
-          case 'Reminders':
+          case StringAssets.reminders:
             return RemindersListScreen();
           default:
             return null;

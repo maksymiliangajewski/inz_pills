@@ -3,6 +3,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:inz_pills/Models/Appointment.dart';
 import 'package:inz_pills/Pages/AppointmentDetailsScreen.dart';
 import 'package:inz_pills/Utils/Colors.dart';
+import 'package:inz_pills/Utils/StringAssets.dart';
 
 class AppointmentsListTileWidget extends StatefulWidget {
   final Appointment appointment;
@@ -71,7 +72,7 @@ class _AppointmentsListTileWidgetState extends State<AppointmentsListTileWidget>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('Click to see details...'),
+                          Text(StringAssets.clickToSeeDetails),
                         ],
                       ),
                     )
