@@ -13,12 +13,17 @@ class _MedicinesListState extends State<MedicinesList> {
   @override
   Widget build(BuildContext context) {
     final userMedicines = Provider.of<List<Medicine>>(context);
-    return userMedicines == null
+    Map<String, Medicine> uniqueUserMedicines = {};
+    for (Medicine medicine in userMedicines) {
+      uniqueUserMedicines[medicine.name] = medicine;
+    }
+    var uniqueUserMedicinesList = uniqueUserMedicines.values.toList();
+    return uniqueUserMedicinesList == null
         ? Loading()
         : ListView.builder(
-            itemCount: userMedicines.length,
+            itemCount: uniqueUserMedicinesList.length,
             itemBuilder: (context, index) {
-              return MedicineListTileWidget(userMedicines[index].name, userMedicines[index].link);
+              return MedicineListTileWidget(uniqueUserMedicinesList[index].name, uniqueUserMedicinesList[index].link);
             });
   }
 }
