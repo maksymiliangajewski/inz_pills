@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
@@ -35,7 +36,7 @@ class AuthService {
           await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user;
       //create a new document for the user with the uid
-      DatabaseService(uid: user.uid).updateUserData('name', 'surname', 0, 'other');
+      DatabaseService(uid: user.uid).updateUserData('name', 'surname', Timestamp.fromDate(DateTime.now()), 'other');
       return _myUserFromFirebase(user);
     } catch (e) {
       print(e.toString());

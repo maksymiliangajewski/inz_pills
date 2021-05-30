@@ -20,11 +20,11 @@ class DatabaseService {
   final CollectionReference remindersCollection =
       FirebaseFirestore.instance.collection('reminders');
 
-  Future updateUserData(String name, String surname, int age, String sex) async {
+  Future updateUserData(String name, String surname, Timestamp birthDate, String sex) async {
     return await usersCollection.doc(uid).set({
       'name': name,
       'surname': surname,
-      'age': age,
+      'birthDate': birthDate,
       'sex': sex,
     });
   }
@@ -61,7 +61,7 @@ class DatabaseService {
         uid: uid,
         name: snapshot.data()['name'],
         surname: snapshot.data()['surname'],
-        age: snapshot.data()['age'],
+        birthDate: snapshot.data()['birthDate'],
         sex: snapshot.data()['sex']);
   }
 

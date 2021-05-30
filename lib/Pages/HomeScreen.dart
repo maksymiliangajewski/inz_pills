@@ -15,7 +15,8 @@ class HomeScreen extends StatefulWidget {
   final String uid;
   final bool showNotifications;
 
-  const HomeScreen({Key key, this.uid, this.showNotifications}) : super(key: key);
+  const HomeScreen({Key key, this.uid, this.showNotifications})
+      : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -60,7 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return StreamProvider<List<Dosage>>.value(
       value: DatabaseService(uid: user.uid).userDosages,
       child: AnimatedContainer(
-        transform: Matrix4.translationValues(xOffset, yOffset, 0)..scale(scaleFactor),
+        transform: Matrix4.translationValues(xOffset, yOffset, 0)
+          ..scale(scaleFactor),
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -133,14 +135,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                        flex: 1, child: HomePageButton(StringAssets.reminders, 'reminders.png')),
+                        flex: 1,
+                        child: HomePageButton(
+                            StringAssets.reminders, 'reminders.png')),
                     Expanded(
                       flex: 2,
                       child: Container(
                         padding: EdgeInsets.all(10),
                         margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20), color: Colors.white),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -150,7 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onChanged: (value) async {
                                   if (value) {
                                     LocalNotifications.cancelAllNotifications();
-                                    LocalNotifications.loadNotifications(widget.uid);
+                                    LocalNotifications.loadNotifications(
+                                        widget.uid);
                                     Fluttertoast.showToast(
                                       msg: StringAssets.notificationsReloaded,
                                       toastLength: Toast.LENGTH_LONG,
@@ -164,8 +170,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       gravity: ToastGravity.BOTTOM,
                                     );
                                   }
-                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                                  prefs.setBool('showNotifications', !showNotifications);
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setBool(
+                                      'showNotifications', !showNotifications);
                                   setState(() {
                                     showNotifications = value;
                                   });
@@ -182,11 +190,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                          flex: 1, child: HomePageButton(StringAssets.medication, 'drugs.png')),
-                      Expanded(flex: 1, child: HomePageButton(StringAssets.dosages, 'dosages.png')),
+                          flex: 1,
+                          child: HomePageButton(
+                              StringAssets.medication, 'drugs.png')),
                       Expanded(
                           flex: 1,
-                          child: HomePageButton(StringAssets.appointments, 'appointments.png')),
+                          child: HomePageButton(
+                              StringAssets.dosages, 'dosages.png')),
+                      Expanded(
+                          flex: 1,
+                          child: HomePageButton(
+                              StringAssets.appointments, 'appointments.png')),
                     ],
                   ),
                 ),
@@ -199,7 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(12.0),
                   child: Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20), color: Colors.white),
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white),
                       child: HomeScreenDosagesList()),
                 ))
               ],

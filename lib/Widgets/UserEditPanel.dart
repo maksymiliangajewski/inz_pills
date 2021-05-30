@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:inz_pills/Models/MyUser.dart';
 import 'package:inz_pills/Services/Database.dart';
 import 'package:inz_pills/Utils/Colors.dart';
@@ -15,10 +15,11 @@ class UserEditPanel extends StatefulWidget {
 class _UserEditPanelState extends State<UserEditPanel> {
   final _formKey = GlobalKey<FormState>();
   List<String> sexes = ['female', 'male', 'other'];
+  DateTime selectedDate = DateTime.now();
 
   String _currentName;
   String _currentSurname;
-  int _currentAge;
+  DateTime _currentBirthDate;
   String _currentSex;
 
   @override
@@ -32,6 +33,7 @@ class _UserEditPanelState extends State<UserEditPanel> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 MyUser userData = snapshot.data;
+                _currentBirthDate = userData.birthDate.toDate();
                 return Form(
                     key: _formKey,
                     child: Column(
@@ -41,25 +43,29 @@ class _UserEditPanelState extends State<UserEditPanel> {
                         TextFormField(
                           initialValue: userData.name,
                           decoration: textInputDecoration(StringAssets.name),
-                          validator: (val) => val.isEmpty ? StringAssets.pleaseEnterName : null,
-                          onChanged: (val) => setState(() => _currentName = val),
+                          validator: (val) =>
+                              val.isEmpty ? StringAssets.pleaseEnterName : null,
+                          onChanged: (val) =>
+                              setState(() => _currentName = val),
                         ),
                         SizedBox(height: 20),
                         TextFormField(
                           initialValue: userData.surname,
                           decoration: textInputDecoration(StringAssets.surname),
-                          validator: (val) => val.isEmpty ? StringAssets.pleaseEnterSurname : null,
-                          onChanged: (val) => setState(() => _currentSurname = val),
+                          validator: (val) => val.isEmpty
+                              ? StringAssets.pleaseEnterSurname
+                              : null,
+                          onChanged: (val) =>
+                              setState(() => _currentSurname = val),
                         ),
                         SizedBox(height: 20),
-                        TextFormField(
-                          initialValue: userData.age.toString(),
-                          decoration: textInputDecoration(StringAssets.age),
-                          validator: (val) => val.isEmpty ? StringAssets.pleaseEnterAge : null,
-                          onChanged: (val) => setState(() => _currentAge = int.parse(val)),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            RaisedButton(
+                                onPressed: () => _selectDate(context),
+                                child: Text("Kliknij, aby wybrać datę urodzenia"),
+                            )
                           ],
                         ),
                         SizedBox(height: 20),
@@ -67,7 +73,8 @@ class _UserEditPanelState extends State<UserEditPanel> {
                             value: _currentSex ?? userData.sex,
                             decoration: textInputDecoration(StringAssets.sex),
                             items: sexes.map((String sex) {
-                              return DropdownMenuItem<String>(value: sex, child: Text('$sex'));
+                              return DropdownMenuItem<String>(
+                                  value: sex, child: Text('$sex'));
                             }).toList(),
                             onChanged: (value) {
                               setState(() => _currentSex = value);
@@ -83,10 +90,11 @@ class _UserEditPanelState extends State<UserEditPanel> {
                               ),
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-                                  await DatabaseService(uid: user.uid).updateUserData(
+                                  await DatabaseService(uid: user.uid)
+                                      .updateUserData(
                                     _currentName ?? userData.name,
                                     _currentSurname ?? userData.surname,
-                                    _currentAge ?? userData.age,
+                                    Timestamp.fromDate(selectedDate) ?? userData.birthDate,
                                     _currentSex ?? userData.sex,
                                   );
                                   Navigator.pop(context);
@@ -108,5 +116,19 @@ class _UserEditPanelState extends State<UserEditPanel> {
             }),
       ),
     );
+  }
+
+  _selectDate(BuildContext context) async {
+    DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: _currentBirthDate,
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now());
+    if(pickedDate != null && pickedDate != _currentBirthDate) {
+      setState(() {
+        selectedDate = pickedDate;
+        _currentBirthDate = pickedDate;
+      });
+    }
   }
 }

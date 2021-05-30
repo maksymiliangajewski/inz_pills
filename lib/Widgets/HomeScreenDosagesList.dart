@@ -48,10 +48,12 @@ class _HomeScreenDosagesListState extends State<HomeScreenDosagesList> {
           ? ListView.builder(
               itemCount: userDosages.length < 5 ? userDosages.length : 5,
               itemBuilder: (context, index) {
-                if (DateTime.fromMillisecondsSinceEpoch(userDosages[index].takeTime.seconds * 1000)
+                if (DateTime.fromMillisecondsSinceEpoch(
+                        userDosages[index].takeTime.seconds * 1000)
                     .toLocal()
                     .isAfter(DateTime.now())) {
-                  return HomeScreenDosagesListTileWidget(dosage: userDosages[index]);
+                  return HomeScreenDosagesListTileWidget(
+                      dosage: userDosages[index]);
                 } else {
                   return Container();
                 }
