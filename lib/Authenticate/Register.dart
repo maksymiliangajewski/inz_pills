@@ -3,6 +3,7 @@ import 'package:inz_pills/Services/Auth.dart';
 import 'package:inz_pills/Utils/Colors.dart';
 import 'package:inz_pills/Utils/Loading.dart';
 import 'package:inz_pills/Utils/StringAssets.dart';
+import 'package:inz_pills/Widgets/UserEditPanel.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -87,6 +88,8 @@ class _RegisterState extends State<Register> {
                                 error = StringAssets.pleaseSupplyValidCredentials;
                                 loading = false;
                               });
+                            } else {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => UserEditPanel()));
                             }
                           }
                         }),
