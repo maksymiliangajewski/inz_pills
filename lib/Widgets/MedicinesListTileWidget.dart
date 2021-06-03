@@ -8,7 +8,8 @@ class MedicineListTileWidget extends StatefulWidget {
   final String medicineUrl;
 
   @override
-  _MedicineListTileWidgetState createState() => _MedicineListTileWidgetState(title, medicineUrl);
+  _MedicineListTileWidgetState createState() =>
+      _MedicineListTileWidgetState(title, medicineUrl);
 
   MedicineListTileWidget(this.title, this.medicineUrl);
 }
@@ -55,7 +56,8 @@ class _MedicineListTileWidgetState extends State<MedicineListTileWidget> {
                     color: Colors.white,
                     boxShadow: shadowList,
                     borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20), bottomRight: Radius.circular(20))),
+                        topRight: Radius.circular(20),
+                        bottomRight: Radius.circular(20))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -93,7 +95,8 @@ class _MedicineListTileWidgetState extends State<MedicineListTileWidget> {
         var begin = Offset(1.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
           child: child,

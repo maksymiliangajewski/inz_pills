@@ -9,10 +9,12 @@ class HomeScreenDosagesListTileWidget extends StatefulWidget {
   HomeScreenDosagesListTileWidget({this.dosage});
 
   @override
-  _HomeScreenDosagesListTileWidgetState createState() => _HomeScreenDosagesListTileWidgetState();
+  _HomeScreenDosagesListTileWidgetState createState() =>
+      _HomeScreenDosagesListTileWidgetState();
 }
 
-class _HomeScreenDosagesListTileWidgetState extends State<HomeScreenDosagesListTileWidget> {
+class _HomeScreenDosagesListTileWidgetState
+    extends State<HomeScreenDosagesListTileWidget> {
   Color color;
 
   @override
@@ -34,7 +36,9 @@ class _HomeScreenDosagesListTileWidgetState extends State<HomeScreenDosagesListT
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: color, borderRadius: BorderRadius.circular(12), boxShadow: shadowList),
+                      color: color,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: shadowList),
                 ),
                 Align(
                   child: Image.asset(
@@ -52,7 +56,8 @@ class _HomeScreenDosagesListTileWidgetState extends State<HomeScreenDosagesListT
                     color: Colors.white,
                     boxShadow: shadowList,
                     borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20), bottomRight: Radius.circular(20))),
+                        topRight: Radius.circular(20),
+                        bottomRight: Radius.circular(20))),
                 child: Column(
                   children: [
                     Padding(
@@ -79,8 +84,9 @@ class _HomeScreenDosagesListTileWidgetState extends State<HomeScreenDosagesListT
   Color customizeTileByDate() {
     final now = DateTime.now();
     final endOfToday = DateTime(now.year, now.month, now.day, 23, 59, 59);
-    final takeTime =
-        DateTime.fromMillisecondsSinceEpoch(widget.dosage.takeTime.seconds * 1000).toLocal();
+    final takeTime = DateTime.fromMillisecondsSinceEpoch(
+            widget.dosage.takeTime.seconds * 1000)
+        .toLocal();
 
     if (takeTime.difference(now).inSeconds < 0) {
       // date in the past

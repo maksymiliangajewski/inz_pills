@@ -23,7 +23,8 @@ class _MedicinesListState extends State<MedicinesList> {
         : ListView.builder(
             itemCount: uniqueUserMedicinesList.length,
             itemBuilder: (context, index) {
-              return MedicineListTileWidget(uniqueUserMedicinesList[index].name, uniqueUserMedicinesList[index].link);
+              return MedicineListTileWidget(uniqueUserMedicinesList[index].name,
+                  uniqueUserMedicinesList[index].link);
             });
   }
 }

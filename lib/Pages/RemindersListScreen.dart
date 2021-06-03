@@ -44,8 +44,11 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
                     IconButton(
                         icon: Icon(FontAwesomeIcons.plusCircle),
                         onPressed: () async {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => ReminderEditPanel(null)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ReminderEditPanel(null)));
                         })
                   ],
                 ),

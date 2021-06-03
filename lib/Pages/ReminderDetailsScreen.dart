@@ -51,8 +51,8 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          ReminderEditPanel(widget.reminder.reminderId)));
+                                      builder: (context) => ReminderEditPanel(
+                                          widget.reminder.reminderId)));
                             }),
                         SizedBox(width: 20),
                         IconButton(
@@ -63,26 +63,36 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: Text(StringAssets.removingReminder),
-                                      content: Text(StringAssets.areYouSureToDelete),
+                                      title:
+                                          Text(StringAssets.removingReminder),
+                                      content:
+                                          Text(StringAssets.areYouSureToDelete),
                                       actions: [
                                         FlatButton(
                                           child: Text(StringAssets.yes,
-                                              style: TextStyle(color: AppColors.imperialRed)),
+                                              style: TextStyle(
+                                                  color:
+                                                      AppColors.imperialRed)),
                                           onPressed: () {
                                             DatabaseService()
-                                                .deleteUserReminder(widget.reminder.reminderId);
-                                            LocalNotifications.cancelAllNotifications();
-                                            LocalNotifications.loadNotifications(
-                                                widget.reminder.userId);
+                                                .deleteUserReminder(
+                                                    widget.reminder.reminderId);
+                                            LocalNotifications
+                                                .cancelAllNotifications();
+                                            LocalNotifications
+                                                .loadNotifications(
+                                                    widget.reminder.userId);
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                           },
                                         ),
                                         FlatButton(
                                           child: Text(StringAssets.no,
-                                              style: TextStyle(color: AppColors.prussianBlue)),
-                                          onPressed: () => Navigator.pop(context),
+                                              style: TextStyle(
+                                                  color:
+                                                      AppColors.prussianBlue)),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
                                         ),
                                       ],
                                     );
@@ -109,7 +119,8 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                             decoration: BoxDecoration(
                               color: AppColors.honeydew,
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20)),
                             ),
                           ),
                           Padding(
@@ -121,12 +132,15 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(bottom: size.height * 0.07),
+                                      margin: EdgeInsets.only(
+                                          bottom: size.height * 0.07),
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 10),
-                                        child: Text(StringAssets.reminderDetails,
-                                            style:
-                                                TextStyle(color: AppColors.honeydew, fontSize: 30)),
+                                        child: Text(
+                                            StringAssets.reminderDetails,
+                                            style: TextStyle(
+                                                color: AppColors.honeydew,
+                                                fontSize: 30)),
                                       ),
                                     ),
                                   ],
@@ -135,11 +149,14 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                     child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         StringAssets.title,
-                                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54),
                                       ),
                                       Text(
                                         widget.reminder.title,
@@ -148,7 +165,9 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                       SizedBox(height: 30),
                                       Text(
                                         StringAssets.content,
-                                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54),
                                       ),
                                       Text(
                                         widget.reminder.content,
@@ -157,7 +176,9 @@ class _ReminderDetailsScreenState extends State<ReminderDetailsScreen> {
                                       SizedBox(height: 30),
                                       Text(
                                         StringAssets.when,
-                                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54),
                                       ),
                                       Text(
                                         widget.reminder.getDateTimeString(),

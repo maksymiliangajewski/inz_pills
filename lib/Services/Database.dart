@@ -13,14 +13,17 @@ class DatabaseService {
   DatabaseService({this.reminderId, this.uid});
 
   //  collection reference
-  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
-  final CollectionReference dosagesCollection = FirebaseFirestore.instance.collection('dosages');
+  final CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('users');
+  final CollectionReference dosagesCollection =
+      FirebaseFirestore.instance.collection('dosages');
   final CollectionReference appointmentsCollection =
       FirebaseFirestore.instance.collection('appointments');
   final CollectionReference remindersCollection =
       FirebaseFirestore.instance.collection('reminders');
 
-  Future updateUserData(String name, String surname, Timestamp birthDate, String sex) async {
+  Future updateUserData(
+      String name, String surname, Timestamp birthDate, String sex) async {
     return await usersCollection.doc(uid).set({
       'name': name,
       'surname': surname,
@@ -29,8 +32,8 @@ class DatabaseService {
     });
   }
 
-  Future updateUserReminder(
-      String reminderId, String userId, String title, String content, Timestamp date) async {
+  Future updateUserReminder(String reminderId, String userId, String title,
+      String content, Timestamp date) async {
     return await remindersCollection.doc(reminderId).set({
       'reminderId': reminderId,
       'userId': userId,
@@ -44,7 +47,8 @@ class DatabaseService {
     return await remindersCollection.doc(reminderId).delete();
   }
 
-  Future createUserReminder(String userId, String title, String content, Timestamp date) async {
+  Future createUserReminder(
+      String userId, String title, String content, Timestamp date) async {
     var document = FirebaseFirestore.instance.collection('reminders').doc();
     var documentId = document.id;
     return await remindersCollection.doc(documentId).set({
@@ -196,38 +200,53 @@ class DatabaseService {
 
   // get reminder doc stream
   Stream<Reminder> get reminderData {
-    return remindersCollection.doc(reminderId).snapshots().map(_reminderFromSnapshot);
+    return remindersCollection
+        .doc(reminderId)
+        .snapshots()
+        .map(_reminderFromSnapshot);
   }
 
   // get specific user dosages stream
   Stream<List<Dosage>> get userDosages {
-    final Query specificUserDosagesCollection =
-        FirebaseFirestore.instance.collection('dosages').where('userId', isEqualTo: uid);
+    final Query specificUserDosagesCollection = FirebaseFirestore.instance
+        .collection('dosages')
+        .where('userId', isEqualTo: uid);
 
-    return specificUserDosagesCollection.snapshots().map(_dosageListFromSnapshot);
+    return specificUserDosagesCollection
+        .snapshots()
+        .map(_dosageListFromSnapshot);
   }
 
   // get specific user reminders stream
   Stream<List<Reminder>> get userReminders {
-    final Query specificUserDosagesCollection =
-        FirebaseFirestore.instance.collection('reminders').where('userId', isEqualTo: uid);
+    final Query specificUserDosagesCollection = FirebaseFirestore.instance
+        .collection('reminders')
+        .where('userId', isEqualTo: uid);
 
-    return specificUserDosagesCollection.snapshots().map(_reminderListFromSnapshot);
+    return specificUserDosagesCollection
+        .snapshots()
+        .map(_reminderListFromSnapshot);
   }
 
   // get medicines from user dosages
   Stream<List<Medicine>> get userMedicines {
-    final Query specificUserDosagesCollection =
-        FirebaseFirestore.instance.collection('dosages').where('userId', isEqualTo: uid);
+    final Query specificUserDosagesCollection = FirebaseFirestore.instance
+        .collection('dosages')
+        .where('userId', isEqualTo: uid);
 
-    return specificUserDosagesCollection.snapshots().map(_medicineListFromSnapshot);
+    return specificUserDosagesCollection
+        .snapshots()
+        .map(_medicineListFromSnapshot);
   }
 
   // get specific user appointments stream
   Stream<List<Appointment>> get userAppointments {
-    final Query specificUserAppointmentsCollection =
-        FirebaseFirestore.instance.collection('appointments').where('userId', isEqualTo: uid);
+    final Query specificUserAppointmentsCollection = FirebaseFirestore.instance
+        .collection('appointments')
+        .where('userId', isEqualTo: uid);
 
-    return specificUserAppointmentsCollection.snapshots().map(_appointmentListFromSnapshot);
+    return specificUserAppointmentsCollection
+        .snapshots()
+        .map(_appointmentListFromSnapshot);
   }
 }
