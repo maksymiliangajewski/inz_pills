@@ -14,7 +14,7 @@ class Dosage {
 
   static var localTime;
 
-  static Future<void> initializeTimeZones() {
+  static initializeTimeZones() {
     tz.initializeTimeZones();
     localTime = tz.getLocation('Europe/Warsaw');
   }
