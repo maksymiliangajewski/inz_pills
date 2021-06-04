@@ -12,10 +12,18 @@ class Dosage {
 
   Dosage({this.userId, this.medicine, this.medLink, this.dose, this.takeTime});
 
+  static var localTime;
+
+  static Future<void> initializeTimeZones() {
+    tz.initializeTimeZones();
+    localTime = tz.getLocation('Europe/Warsaw');
+  }
+
   String getDateTimeString() {
+    initializeTimeZones();
     DateTime date =
         DateTime.fromMillisecondsSinceEpoch(takeTime.seconds * 1000);
-    final scheduledTakeTime = tz.TZDateTime.from(date, tz.local);
+    final scheduledTakeTime = tz.TZDateTime.from(date, localTime);
     final formatter = new DateFormat('HH:mm dd.MM.yyyy');
     return formatter.format(scheduledTakeTime);
   }
