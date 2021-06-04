@@ -14,7 +14,7 @@ class Dosage {
 
   String getDateTimeString() {
     DateTime date =
-        DateTime.fromMillisecondsSinceEpoch(takeTime.seconds * 1000).add(Duration(hours: 1));
+        DateTime.fromMillisecondsSinceEpoch(takeTime.seconds * 1000);
     final scheduledTakeTime = tz.TZDateTime.from(date, tz.local);
     final formatter = new DateFormat('HH:mm dd.MM.yyyy');
     return formatter.format(scheduledTakeTime);

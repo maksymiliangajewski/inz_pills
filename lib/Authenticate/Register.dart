@@ -29,77 +29,111 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : Scaffold(
-            backgroundColor: Colors.brown[100],
             appBar: AppBar(
-              backgroundColor: Colors.brown[400],
-              title: Text(StringAssets.register),
+              backgroundColor: AppColors.powderBlue,
+              title: Text(
+                StringAssets.register,
+                style: TextStyle(color: AppColors.prussianBlue),
+              ),
               actions: [
                 FlatButton.icon(
                     onPressed: () {
                       widget.toggleView();
                     },
                     icon: Icon(Icons.person),
-                    label: Text(StringAssets.signIn))
+                    label: Text(
+                      StringAssets.signIn,
+                      style: TextStyle(color: AppColors.prussianBlue),
+                    ))
               ],
             ),
             body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [AppColors.powderBlue, AppColors.caladonBlue]),
+                color: AppColors.honeydew,
+              ),
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SizedBox(height: 20),
-                    TextFormField(
-                      decoration: textInputDecoration(StringAssets.email),
-                      validator: (val) => val.isEmpty ? StringAssets.enterEmail : null,
-                      onChanged: (val) {
-                        setState(() {
-                          email = val;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    TextFormField(
-                      decoration: textInputDecoration(StringAssets.password),
-                      validator: (val) => val.length < 6 ? StringAssets.enterLongerPassword : null,
-                      obscureText: true,
-                      onChanged: (val) {
-                        setState(() {
-                          password = val;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    RaisedButton(
-                        color: Colors.pink[400],
-                        child: Text(
-                          StringAssets.register,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: textInputDecoration(StringAssets.email),
+                          validator: (val) =>
+                              val.isEmpty ? StringAssets.enterEmail : null,
+                          onChanged: (val) {
                             setState(() {
-                              loading = true;
+                              email = val;
                             });
-                            dynamic result =
-                                await _auth.registerWithEmailAndPassword(email, password);
-                            if (result == null) {
-                              setState(() {
-                                error = StringAssets.pleaseSupplyValidCredentials;
-                                loading = false;
-                              });
-                            } else {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => UserEditPanel()));
-                            }
-                          }
-                        }),
-                    SizedBox(height: 12),
-                    Text(
-                      error,
-                      style: TextStyle(color: Colors.red, fontSize: 14),
-                    )
-                  ],
-                ),
+                          },
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.03),
+                        TextFormField(
+                          decoration:
+                              textInputDecoration(StringAssets.password),
+                          validator: (val) => val.length < 6
+                              ? StringAssets.enterLongerPassword
+                              : null,
+                          obscureText: true,
+                          onChanged: (val) {
+                            setState(() {
+                              password = val;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.08),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(33.0)),
+                              color: AppColors.prussianBlue,
+                              child: Text(
+                                StringAssets.register,
+                                style: TextStyle(color: AppColors.honeydew, fontSize: 20),
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  dynamic result =
+                                      await _auth.registerWithEmailAndPassword(
+                                          email, password);
+                                  if (result == null) {
+                                    setState(() {
+                                      error = StringAssets
+                                          .pleaseSupplyValidCredentials;
+                                      loading = false;
+                                    });
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserEditPanel()));
+                                  }
+                                }
+                              }),
+                        ),
+                        Text(
+                          error,
+                          style: TextStyle(color: Colors.red, fontSize: 14),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           );
